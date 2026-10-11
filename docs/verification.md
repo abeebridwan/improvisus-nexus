@@ -12,3 +12,11 @@ Verified locally on Linux on October 11, 2026 (WAT).
 - `npm audit fix`: compatible fixes checked; 14 upstream dependency advisories remain (10 moderate, 4 high) in the mandatory neatlogs dependency tree.
 
 The desktop screenshot is generated at `artifacts/desktop-smoke.png` and kept out of Git. Agent execution, WebMCP generation/installation, capability discovery, remote integrations, failed/successful agent run evidence, and the cfo.ai plan remain unimplemented.
+
+## Mandatory integration setup follow-up
+
+On October 11, 2026, `npm run typecheck` passed with the new SDK-native instrumentation presets, and the official local neatlogs diagnostic passed again. The ignored `.env` has mode `0600`, is not tracked, and contains an empty key placeholder; no real key was supplied and no authenticated probe was run. The probe command's environment-file loading and CLI help were checked without exporting a trace.
+
+`entire enable --agent codex` was rerun successfully. `entire status --detailed` confirms enabled Codex integration and `push_sessions=false`; `entire doctor` still reports seven hooks requiring approval. `entire session current` reports no captured state for this session. The two existing Git commit hashes remain unchanged.
+
+The cfo.ai event signup URL was followed from the official hackathon page and its redirect confirmed. No account, payment, credit redemption, or financial model was created. Manual steps and required model inputs are in `docs/business-plan/README.md`.

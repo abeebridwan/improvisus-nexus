@@ -2,6 +2,8 @@
 
 Status: pending manual creation in [cfo.ai](https://cfo.ai/).
 
+Use the [business-plan setup checklist](business-plan/README.md) for the official neatHack signup link, manual billing/credit steps, and required Nexus model inputs.
+
 The Improvisus Nexus business plan will be created with cfo.ai and included in the neatHack 2026 submission. No financial projections have been created and no programmatic cfo.ai integration is claimed.
 
 The plan must cover pricing, model and browser execution costs, agent hosting costs where applicable, revenue assumptions, unit economics, and runway. Use measured execution costs and clearly identified assumptions when that evidence exists.

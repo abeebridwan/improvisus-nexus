@@ -42,11 +42,11 @@ Build tooling follows [electron-vite conventions](https://electron-vite.org/guid
 
 ## Integration status
 
-- **neatlogs:** official SDK installed; optional main-process startup trace and graceful flush/shutdown prepared. Add a project key in `.env`. Local diagnostic: `npm run neatlogs:doctor`. Dashboard delivery is unverified.
+- **neatlogs:** official SDK installed; main-process startup tracing, graceful shutdown, and inert agent instrumentation presets prepared. Add a project key in the ignored, owner-only `.env`. Local diagnostic: `npm run neatlogs:doctor`; authenticated diagnostic after supplying a key: `npm run neatlogs:probe`. Dashboard delivery is unverified.
 - **Entire:** CLI installed and Git/Codex hooks configured. Open `/hooks` in a project Codex session to approve capture. This initialization session was not captured. Check `npm run entire:status` and `entire doctor`.
 - **Agent37:** official hosted API verified; configuration placeholders documented. No local runtime package or agent instance installed/provisioned.
 - **InstaCloud:** official `insta` CLI installed and version checked. No cloud resources or custom publisher created.
-- **cfo.ai:** [business plan placeholder](docs/cfo-ai.md) created; plan remains manual work.
+- **cfo.ai:** [official signup and financial-plan inputs](docs/business-plan/README.md) documented; signup and plan remain manual work.
 
 See [setup details and remaining manual steps](docs/integrations.md) and [verified results](docs/verification.md). Copy `.env.example` to `.env` if configuring tracing; all credentials are optional for the shell and no fake values are provided. The model provider and Search settings are reserved for future implementation.
 

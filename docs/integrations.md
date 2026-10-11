@@ -22,9 +22,11 @@ No login, project creation, service creation, deployment, or global agent/MCP se
 
 The official `neatlogs` TypeScript SDK is installed following its [SDK documentation](https://docs.neatlogs.com/sdk/typescript). Main-process initialization awaits `init()`. With a real `NEATLOGS_API_KEY`, a `CHAIN` span records actual desktop startup. App quit awaits `flush()` and `shutdown()`. Without a key, the desktop starts without initializing telemetry or claiming exported traces. `NEATLOGS_ENDPOINT` is the ingest base URL; use the EU endpoint if your project requires it.
 
-`npm run neatlogs:doctor` performs the official local-only SDK diagnostic. Its controlled fixture spans are SDK checks, not application runs, model calls, or hackathon demonstration evidence. Dashboard delivery has not been verified. A future authenticated `neatlogs doctor --probe` can check the service connection; inspect the dashboard as well.
+`npm run neatlogs:doctor` performs the official local-only SDK diagnostic. Its controlled fixture spans are SDK checks, not application runs, model calls, or hackathon demonstration evidence. Dashboard delivery has not been verified. After supplying a real key, `npm run neatlogs:probe` loads the ignored `.env` and runs the official authenticated diagnostic; inspect the dashboard as well.
 
-When agent workflows are implemented, add actual `WORKFLOW`, `AGENT`, `TOOL`, and verification spans. Use documented model-client wrappers or semantic spans for raw requests. Capture inputs/outputs, state transitions, failures, retries, latency, real usage, and costs only where available. Hosted Agent37 internals will require harness-side instrumentation or exposed runtime events; a single HTTP call cannot prove internal tool observability. The failed run, debugging iteration, and verified successful run remain future demo work.
+Typed SDK-native presets and the [instrumentation checklist](../src/main/observability/README.md) now prepare workflow, Agent37 reasoning, LLM, WebMCP, approval, retry, error, and verification coverage. The presets create no spans themselves. Hosted Agent37 internals still require harness-side instrumentation or exposed runtime events; a single HTTP call cannot prove internal tool observability. The failed run, debugging iteration, and verified successful run remain future demo work.
+
+The ignored local `.env` contains an empty key placeholder and has owner-only permissions. Enter your project key in a local editor or provide it in the main-process environment; it is not available to the renderer. No live export was verified without a supplied key.
 
 The installed SDK currently brings upstream OpenTelemetry/protobuf dependencies with npm advisories. Compatible `npm audit fix` did not resolve them. No forced downgrade or incompatible OpenTelemetry overrides were applied; see `npm audit` before deployment and recheck upstream fixes.
 
@@ -40,10 +42,12 @@ entire doctor
 
 Project settings and Codex hooks are tracked. Git hooks are local and need reinstalling after a fresh clone. Automatic checkpoint pushing is disabled; nothing has been pushed. On another machine, install Entire and run the enable command above.
 
-Manual prerequisite: open Codex in this project and approve the seven installed hooks through `/hooks`, as reported by `entire doctor`, then start or resume a project coding session. This initialization session started before those hooks existed and has no captured Entire session state. Do not describe Git commits as captured session checkpoints. Future project commits should create real checkpoints once approved hooks are active. Check `entire session current`, `entire checkpoint list`, and `entire doctor` to verify capture.
+Re-ran `entire enable --agent codex` and verified `entire status --detailed`; automatic checkpoint publishing remains disabled. Codex still requires approval for its seven hooks through `/hooks`, as reported by `entire doctor`. Open Codex in this project, approve those commands, and start or resume a project coding session. This existing session has no captured Entire session state. Do not describe Git commits as captured session checkpoints. Future project commits should create real checkpoints once approved hooks are active. Check `entire session current`, `entire checkpoint list`, and `entire doctor` to verify capture.
+
+Keep `strategy_options.push_sessions=false` for local checkpoint storage, and do not explicitly push `refs/entire/checkpoints/*` or run a checkpoint sync/push unless the transcripts have been reviewed and publication is authorized. Local Entire checkpoints contain actual session transcripts, with best-effort secret redaction; they remain sensitive even when code is public.
 
 No existing commit was amended, and no transcript or checkpoint was fabricated.
 
 ## cfo.ai and submission
 
-See [cfo-ai.md](cfo-ai.md) for the business-plan placeholder. Public repository publication, build-in-public posts, the end-to-end demo video, and the final submission are later steps. Hackathon deadlines and official submission instructions must be confirmed with the organizers before submitting.
+See [business-plan/README.md](business-plan/README.md) for the verified official signup link and manual financial-plan checklist. Public repository publication, build-in-public posts, the end-to-end demo video, and the final submission are later steps. Hackathon deadlines and official submission instructions must be confirmed with the organizers before submitting.

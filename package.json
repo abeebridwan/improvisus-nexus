@@ -17,6 +17,7 @@
     "check": "npm run typecheck && npm test",
     "browser:install": "playwright install chromium",
     "neatlogs:doctor": "neatlogs doctor --local --json",
+    "neatlogs:probe": "node --env-file=.env node_modules/neatlogs/dist/cli.mjs doctor --probe --json",
     "entire:status": "entire status --detailed",
     "insta": "insta"
   },
