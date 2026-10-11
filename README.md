@@ -46,7 +46,7 @@ Build tooling follows [electron-vite conventions](https://electron-vite.org/guid
 
 ## Integration status
 
-- **neatlogs:** official SDK installed; main-process startup tracing, graceful shutdown, and inert agent instrumentation presets prepared. `npm run neatlogs:doctor` and authenticated `npm run neatlogs:probe` passed, including finalized hosted diagnostic readback. Real application/agent traces require separate verification. Credentials stay in the ignored, owner-only `.env` or process environment.
+- **neatlogs:** official SDK initialized once in the main process, with credential masking and bounded shutdown. Real desktop startup and renderer-load spans were verified as finalized through authenticated CLI readback. `npm run neatlogs:verify-desktop` reproduces the local launch check; [verification notes](docs/verification.md) explain independent readback. Agent/LLM/WebMCP instrumentation remains dormant until real execution exists. Credentials stay in the ignored, owner-only `.env` or process environment.
 - **Entire:** CLI and Git/Codex hooks configured; the real Codex session has a manually recovered local checkpoint. Approve `/hooks` for automatic capture. Hosted sync remains unverified; see [checkpoint verification](docs/entire-checkpoints.md).
 - **Agent37:** official hosted API verified; configuration placeholders documented. No local runtime package or agent instance installed/provisioned.
 - **InstaCloud:** official `insta` CLI installed and version checked. No cloud resources or custom publisher created.

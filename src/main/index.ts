@@ -43,7 +43,7 @@ function serveRenderer(): void {
   })
 }
 
-async function createWindow(): Promise<void> {
+async function createWindow(): Promise<{ rendererLoaded: true }> {
   const window = new BrowserWindow({
     title: 'Improvisus Nexus',
     width: 1080,
@@ -82,13 +82,19 @@ async function createWindow(): Promise<void> {
   window.webContents.on('will-attach-webview', (event) => event.preventDefault())
   window.once('ready-to-show', () => window.show())
 
-  if (!app.isPackaged && devUrl) {
-    const url = new URL(devUrl)
-    if (url.origin !== 'http://127.0.0.1:5173') throw new Error('Unexpected renderer development origin')
-    await window.loadURL(url.toString())
-  } else {
-    await window.loadURL(appUrl)
+  const loadRenderer = async (): Promise<{ rendererLoaded: true }> => {
+    if (!app.isPackaged && devUrl) {
+      const url = new URL(devUrl)
+      if (url.origin !== 'http://127.0.0.1:5173') throw new Error('Unexpected renderer development origin')
+      await window.loadURL(url.toString())
+    } else {
+      await window.loadURL(appUrl)
+    }
+    return { rendererLoaded: true }
   }
+  return tracingEnabled
+    ? trace({ name: 'desktop.renderer.load', kind: 'CHAIN', input: { source: devUrl ? 'development' : 'bundled' } }, loadRenderer)
+    : loadRenderer()
 }
 
 app.setName('Improvisus Nexus')
@@ -96,7 +102,13 @@ app.whenReady().then(async () => {
   serveRenderer()
   tracingEnabled = await initializeTracing()
   if (tracingEnabled) {
-    await trace({ name: 'desktop.start', kind: 'CHAIN' }, createWindow)
+    let traceId = ''
+    await trace({ name: 'desktop.start', kind: 'WORKFLOW', input: { operation: 'launch-desktop' } }, async (span) => {
+      traceId = span.spanContext().traceId
+      return createWindow()
+    })
+    // Opt-in main-process diagnostics; no SDK or secret is bridged to the renderer.
+    if (process.env.NEXUS_TRACE_STDOUT === '1') console.log(`NEXUS_START_TRACE ${traceId}`)
   } else {
     await createWindow()
   }
@@ -113,8 +125,8 @@ app.on('before-quit', (event) => {
   if (!tracingEnabled) return
   event.preventDefault()
   tracingEnabled = false
-  void stopTracing().catch((error: unknown) => {
-    console.error('neatlogs shutdown failed:', error)
+  void stopTracing().catch(() => {
+    console.error('neatlogs: shutdown failed')
   }).finally(() => app.quit())
 })
 

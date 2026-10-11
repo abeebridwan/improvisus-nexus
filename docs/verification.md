@@ -30,3 +30,43 @@ The initial authenticated probe failed under restricted network access (`FLUSH_T
 `npm test` also passed the production build and Electron smoke checks with tracing configured. A direct SDK counter inspection through Playwright's Electron evaluator failed with a missing dynamic-import callback; no counter result is claimed. Independently verifying the finalized real `desktop.start` application span in the dashboard remains outstanding.
 
 No secret values, private trace payloads, or authenticated trace URLs are included in this record. No runtime implementation changed.
+
+## Real desktop neatlogs verification — October 12, 2026 (WAT)
+
+Followed the [official setup guide](https://neatlogs.com/hackathon/neatlogs-setup-guide.html), current TypeScript documentation, and official TypeScript/Public CLI skills. The installed SDK and latest published SDK were both `1.1.28`; no dependency upgrade was needed. The current published standalone CLI was verified as `0.2.1` and installed under `/tmp/nexus-neatlogs-cli` for this check, without adding project dependencies or replacing the SDK Doctor binary.
+
+After the builder approved device login, CLI OAuth succeeded with `context:read` and `observability:read`; credentials were saved to the OS keychain, not repository files. Project discovery and project-scoped `whoami` succeeded on `https://app.neatlogs.com`. Readback explicitly selected profile `nexus-us` and `--credential-source profile`, while removing SDK-key/token overrides from child environments. The application's Project API key remained available only to its main process.
+
+Two real bundled desktop startup checks ran. The final-code run produced **trace `ce86d68cc277c0f8327a06fff49c04f3`**, workflow `improvisus-nexus`, name `desktop.start`, status `OK`, finalization status `finalized`.
+
+| Actual operation | Span ID | Kind / parent | Observed result |
+| --- | --- | --- | --- |
+| Desktop startup | `d31438e71cda8b9e` | `WORKFLOW`; root | `OK`, 648 ms; safe launch label and renderer-loaded result read back |
+| Bundled renderer load | `4342521468b475fe` | `CHAIN`; parent `d31438e71cda8b9e` | `OK`, 503 ms; bundled-source label and renderer-loaded result read back |
+
+Authenticated `traces get`, `traces spans list`, `traces raw-spans`, and both `traces payload --fields input,output` reads all succeeded for that exact trace. Canonical and raw pages each returned two spans, `hasMore=false`, and `nextCursor=null`: one root, its expected child, and no duplicate operation spans. Both safe payloads were present and untruncated. This verifies real desktop capture and persisted readback, separately from Doctor's controlled fixture. No private trace or account data was copied into this document.
+
+Checks passed: documented local Doctor v2/schema 2, `npm run check` (TypeScript, credential-masking test, production build and Electron security smoke), final `npm run neatlogs:verify-desktop`, final TypeScript checks, script syntax and `git diff --check`. The real window rendered the expected shell and closed normally; no telemetry lifecycle failure was reported. `.env` remains ignored and untracked. Local evidence is ignored at `artifacts/neatlogs-desktop.json` with owner-only permissions.
+
+Coverage is **partial for the requested product instrumentation**: no Agent37 executor, model client, WebMCP runner, approvals, retries, or result-verification feature exists. Their presets remain inert. No agent/model/tool operation, reasoning, usage, cost, failure or recovery was measured in this desktop run. Zero model/tool counts in the metadata match that exclusion. macOS reopening and development-mode tracing were not independently read back in this session.
+
+A final exposure scan confirmed the configured Project API key was absent from changed files and renderer/preload bundles without printing its value. The scan initially encountered sandbox `EPERM` when Node spawned Git; shell-based path collection resolved that local check limitation.
+
+### Reproduce and inspect
+
+```sh
+npm run check
+npm run neatlogs:verify-desktop
+```
+
+The second command requires a real Project API key and a desktop display. It prints the new actual trace ID and explicitly reports readback as unverified until inspected independently. Use `xvfb-run -a` on Linux without a display. The script's loopback debugging port exists only for this verification process.
+
+The verification CLI currently resides in `/tmp`; for a persistent command, install the separate official CLI with `npm install --global neatlogs-cli@0.2.1`. This does not replace the project's local SDK Doctor. Select the UUID returned by project discovery, and use the newly printed trace ID:
+
+```sh
+env -u NEATLOGS_PROJECT_ID neatlogs --host https://app.neatlogs.com --profile nexus-us --credential-source profile projects list --json
+neatlogs --host https://app.neatlogs.com --profile nexus-us --credential-source profile --project '<project-uuid>' traces get '<trace-id>' --json
+neatlogs --host https://app.neatlogs.com --profile nexus-us --credential-source profile --project '<project-uuid>' traces spans list '<trace-id>' --limit 50 --json
+```
+
+Follow `nextCursor` until pagination completes. `traces get` alone does not return spans. Use the installed CLI's help/schema for raw previews or selected payloads. If saved login expires, repeat the human-approved device flow; another machine needs its own login. For an EU project, select its actual EU dashboard and a separate matching profile. No trace-sharing setting was enabled and no public/share URL is claimed.

@@ -23,7 +23,7 @@ This record follows the [official neatHack build-companion skill](https://neatlo
 | Insta / InstaCloud | Official `insta` CLI installed; version check returned `0.1.23`. No publisher or cloud resources created. |
 | Playwright / Chromium | Installed; desktop smoke and standalone Chromium launch checks passed. No website workflow runner implemented. |
 | WebMCP | Generator/discovery boundaries and demo acceptance criteria documented. No capability generated, installed, or invoked. |
-| neatlogs — mandatory | TypeScript SDK `1.1.28` in the main process; startup lifecycle and inert agent presets prepared. Local diagnostic and authenticated hosted diagnostic passed. The controlled trace finalized with exact four-span readback; application startup finalization and agent workflows are not independently verified. |
+| neatlogs — mandatory | TypeScript SDK `1.1.28` initialized once in the main process with credential masking and bounded shutdown. Local/authenticated diagnostics passed. Real desktop startup finalized with exact two-span authenticated CLI readback on October 12. Agent/LLM/WebMCP operations remain unimplemented. |
 | Entire — mandatory | CLI `0.11.4` and Git/Codex hooks configured; seven hooks still await approval. A real Codex transcript was manually captured as local checkpoint `01M4PJQYJYSVZHDH8GEB4A239Y` without amending HEAD. Automatic capture and hosted sync are not verified; publishing stays disabled. |
 | cfo.ai — mandatory | Official event signup and model-input checklist documented. No plan export, credit confirmation, or account completion evidence recorded. |
 
@@ -82,6 +82,16 @@ The intended model endpoint is OpenAI-compatible; no model client or call is imp
 - Confirmed all five pre-existing code commits remain ancestors of the new HEAD. No history was rewritten. The local recovery and documentation-link checks passed; no runtime tests were needed for this documentation-only improvement.
 - Next: approve project hooks for automatic capture, sign in to Entire and authorize its GitHub App for the selected repository, then privately review captured context before explicitly authorizing any sync. The share URL remains conditional on that review and synchronization.
 
+### October 12, 2026 (WAT) — real desktop observability verification
+
+- Inspected the existing Electron architecture and Agent37/LLM placeholders before edits; no executable agent or model client exists. Read the official neatlogs setup guide and current SDK/CLI skills. No agent features or substitute runtime were implemented.
+- Added single-process initialization/shutdown guards, bounded flush/shutdown, export-boundary credential masking, and a real renderer-load child beneath the startup workflow. Prepared dormant WebMCP discovery options and retained supported failure/approval/retry/verification guidance.
+- Builder-approved device OAuth stored read credentials in the OS keychain. Standalone CLI `0.2.1` was installed only in `/tmp`; project SDK stays `1.1.28`, with no dependency additions. SDK ingestion and Public API read credentials remained isolated.
+- Passed local Doctor, TypeScript, masking test, production build, real Electron security smoke, final startup verification, script syntax and diff checks. Two actual startup checks ran; final trace `ce86d68cc277c0f8327a06fff49c04f3` was finalized `OK` with exactly `desktop.start` (`WORKFLOW`) and its `desktop.renderer.load` (`CHAIN`) child. Authenticated canonical/raw pagination and safe input/output checks passed with no duplicates. Evidence: [verification notes](docs/verification.md); generated local evidence remains ignored.
+- A final credential-exposure scan initially hit sandbox `EPERM` when Node spawned Git. Collecting paths directly through the shell avoided that subprocess restriction; the scan then confirmed the configured Project API key was absent from changed files and renderer/preload bundles, without displaying its value.
+- No product failure/retry, model usage/cost, Agent37 reasoning, WebMCP task, or agent verification occurred. Prior diagnostic failures remain recorded above; they are not product recovery evidence. No key, private account data, private prompts, public trace sharing, Git push or submission was added.
+- Next: implement the first real executor/client when authorized, attach one supported capture owner per operation, and verify its actual run separately. Read-only CLI login may need renewed human approval when it expires.
+
 ## Demo
 
 **Public demo/video URL:** Pending. **Fixture URL:** Pending. The [procurement-shortlist demo](docs/demo-acceptance.md) is a draft acceptance plan, not a working demonstration.
@@ -98,7 +108,7 @@ The foundation can be reproduced with `npm ci`, `npm run typecheck`, and `npm te
 ## Known limitations and next steps
 
 1. Product capabilities, Search integration, permissions for product actions, recovery, and task verification remain unimplemented. The desktop's denied permissions are foundation security settings, not an agent permission system.
-2. neatlogs' authenticated controlled pipeline is verified. Application startup finalization still needs independent dashboard confirmation, and hosted Agent37 internals require actual instrumentation/event access. Never copy private values into this log.
+2. neatlogs' diagnostic pipeline and real desktop startup are independently verified. Hosted Agent37/model/WebMCP internals still require implemented paths, real credentials and instrumentation/event access. Never copy private values into this log.
 3. Entire now has a real manually captured session checkpoint; automatic capture still needs project hook approval. Hosted synchronization and shareable access are unverified; Git commit hashes are not checkpoint IDs.
 4. cfo.ai signup, billing/credit confirmation, pricing/cost/revenue/runway model, and exported submission evidence remain manual work.
 5. Dependency advisories, source/checkpoint publication, demo evidence, and build-in-public posts remain outstanding. The public GitHub repository exists at `https://github.com/abeebridwan/improvisus-nexus`; `origin` is connected, but no code or checkpoint was pushed.
