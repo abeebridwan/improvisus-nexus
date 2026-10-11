@@ -46,7 +46,7 @@ Build tooling follows [electron-vite conventions](https://electron-vite.org/guid
 
 ## Integration status
 
-- **neatlogs:** official SDK installed; main-process startup tracing, graceful shutdown, and inert agent instrumentation presets prepared. Add a project key in the ignored, owner-only `.env`. Local diagnostic: `npm run neatlogs:doctor`; authenticated diagnostic after supplying a key: `npm run neatlogs:probe`. Dashboard delivery is unverified.
+- **neatlogs:** official SDK installed; main-process startup tracing, graceful shutdown, and inert agent instrumentation presets prepared. `npm run neatlogs:doctor` and authenticated `npm run neatlogs:probe` passed, including finalized hosted diagnostic readback. Real application/agent traces require separate verification. Credentials stay in the ignored, owner-only `.env` or process environment.
 - **Entire:** CLI installed and Git/Codex hooks configured. Open `/hooks` in a project Codex session to approve capture. This initialization session was not captured. Check `npm run entire:status` and `entire doctor`.
 - **Agent37:** official hosted API verified; configuration placeholders documented. No local runtime package or agent instance installed/provisioned.
 - **InstaCloud:** official `insta` CLI installed and version checked. No cloud resources or custom publisher created.

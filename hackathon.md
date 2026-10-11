@@ -23,11 +23,11 @@ This record follows the [official neatHack build-companion skill](https://neatlo
 | Insta / InstaCloud | Official `insta` CLI installed; version check returned `0.1.23`. No publisher or cloud resources created. |
 | Playwright / Chromium | Installed; desktop smoke and standalone Chromium launch checks passed. No website workflow runner implemented. |
 | WebMCP | Generator/discovery boundaries and demo acceptance criteria documented. No capability generated, installed, or invoked. |
-| neatlogs — mandatory | TypeScript SDK `1.1.28` in the main process; startup tracing lifecycle and inert agent span presets prepared. Local SDK diagnostic passed. No authenticated delivery or agent trace recorded. |
+| neatlogs — mandatory | TypeScript SDK `1.1.28` in the main process; startup lifecycle and inert agent presets prepared. Local diagnostic and authenticated hosted diagnostic passed. The controlled trace finalized with exact four-span readback; application startup finalization and agent workflows are not independently verified. |
 | Entire — mandatory | CLI `0.11.4`, Git hooks, and Codex hooks configured. Latest status: enabled, seven hooks awaiting approval; automatic checkpoint publishing disabled. No captured session checkpoint verified. |
 | cfo.ai — mandatory | Official event signup and model-input checklist documented. No plan export, credit confirmation, or account completion evidence recorded. |
 
-The intended model endpoint is OpenAI-compatible; no model client or call is implemented. Current credential configuration was not inspected in this documentation session.
+The intended model endpoint is OpenAI-compatible; no model client or call is implemented. The latest neatlogs check verified that a project key was present and authenticated successfully, without recording its value.
 
 ## Build log
 
@@ -56,6 +56,15 @@ The intended model endpoint is OpenAI-compatible; no model client or call is imp
 - Commit preparation groups the pending prep files with this build-companion setup under the builder's earlier commit instruction. Existing commits remain intact; no push, registration, deployment, or submission was performed.
 - Next: approve project Entire hooks, confirm participant registration/check-in with organizers, complete cfo.ai manual setup, and implement the first real workflow against the demo criteria when authorized.
 
+### October 11, 2026 (WAT) — neatlogs live verification
+
+- `npm run neatlogs:doctor` passed using installed TypeScript SDK `1.1.28`, Doctor v2, schema `2`.
+- The first `npm run neatlogs:probe` attempt under restricted network access failed with `FLUSH_TIMEOUT` and `BACKEND_CONNECTION_FAILED`. Repeating the same command with network access passed; no key, endpoint, dependency, or instrumentation change was needed.
+- Hosted verification confirmed the controlled diagnostic trace was visible, finalized, and read back with exactly four spans, one root, correct parent edges/metadata/input/output, numeric fixture tokens, and no duplicates. These are the official Doctor fixture results, not a real agent run or usage measurements.
+- `npm test` rebuilt and launched the real Electron app with configured tracing, passed the shell/security smoke checks, and closed it. A separate attempt to inspect SDK flush/delivery counters in the main process failed because Playwright's evaluator has no dynamic-import callback; it did not establish application-trace delivery.
+- Evidence: [verification notes](docs/verification.md) and the [official Doctor contract](https://docs.neatlogs.com/sdk/doctor). No private trace payloads, project details, credential values, or authenticated trace links were written to this log.
+- Remaining check: confirm the actual `improvisus-nexus` / `desktop.start` span in the project's dashboard. Product workflows remain unimplemented. No credentials or runtime source files were changed.
+
 ## Demo
 
 **Public demo/video URL:** Pending. **Fixture URL:** Pending. The [procurement-shortlist demo](docs/demo-acceptance.md) is a draft acceptance plan, not a working demonstration.
@@ -72,7 +81,7 @@ The foundation can be reproduced with `npm ci`, `npm run typecheck`, and `npm te
 ## Known limitations and next steps
 
 1. Product capabilities, Search integration, permissions for product actions, recovery, and task verification remain unimplemented. The desktop's denied permissions are foundation security settings, not an agent permission system.
-2. neatlogs setup has local diagnostic evidence only; hosted Agent37 internal events require actual instrumentation/event access. Supplied credentials and live delivery must be checked separately without copying private values into this log.
+2. neatlogs' authenticated controlled pipeline is verified. Application startup finalization still needs independent dashboard confirmation, and hosted Agent37 internals require actual instrumentation/event access. Never copy private values into this log.
 3. Entire capture needs project hook approval and a real development session; Git commit hashes are not checkpoint IDs.
 4. cfo.ai signup, billing/credit confirmation, pricing/cost/revenue/runway model, and exported submission evidence remain manual work.
 5. Dependency advisories, public repository publication, demo evidence, and build-in-public posts remain outstanding. No remote is configured locally at this check; no public repository URL is recorded.

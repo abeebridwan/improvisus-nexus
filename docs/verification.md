@@ -20,3 +20,13 @@ On October 11, 2026, `npm run typecheck` passed with the new SDK-native instrume
 `entire enable --agent codex` was rerun successfully. `entire status --detailed` confirms enabled Codex integration and `push_sessions=false`; `entire doctor` still reports seven hooks requiring approval. `entire session current` reports no captured state for this session. The two existing Git commit hashes remain unchanged.
 
 The cfo.ai event signup URL was followed from the official hackathon page and its redirect confirmed. No account, payment, credit redemption, or financial model was created. Manual steps and required model inputs are in `docs/business-plan/README.md`.
+
+## neatlogs authenticated verification — October 11, 2026
+
+The configured project key was checked for presence without displaying or recording its value. Local Doctor passed with TypeScript SDK `1.1.28`, Doctor v2, schema `2`.
+
+The initial authenticated probe failed under restricted network access (`FLUSH_TIMEOUT`, `BACKEND_CONNECTION_FAILED`). A network-enabled retry of `npm run neatlogs:probe` passed, including exact hosted trace readback, finalization, four spans, one root, hierarchy, attributes, metadata, inputs/outputs, numeric fixture tokens, and zero duplicates. No configuration change was required. This verifies the official controlled SDK diagnostic, not application or agent execution.
+
+`npm test` also passed the production build and Electron smoke checks with tracing configured. A direct SDK counter inspection through Playwright's Electron evaluator failed with a missing dynamic-import callback; no counter result is claimed. Independently verifying the finalized real `desktop.start` application span in the dashboard remains outstanding.
+
+No secret values, private trace payloads, or authenticated trace URLs are included in this record. No runtime implementation changed.
