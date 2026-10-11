@@ -6,7 +6,7 @@ This repository currently contains the desktop foundation only. The two capabili
 
 ## Development
 
-Use Node.js 22.12+ and npm.
+Use Node.js 22.12+ and npm. `.nvmrc` pins the locally verified development version to 22.23.0. With nvm installed, run `nvm install` and `nvm use` in this directory before the commands below. `.editorconfig` keeps UTF-8, LF, and two-space indentation consistent.
 
 ```sh
 npm ci
@@ -35,6 +35,10 @@ docs/           Integration setup and cfo.ai placeholder
 ```
 
 Future main-process responsibilities have small documentation placeholders under `agent/`, `browser/`, `discovery/`, and `webmcp/`. No workflow interfaces or implementations have been added.
+
+The [demo acceptance checklist](docs/demo-acceptance.md) defines a planned product-search capability and procurement-shortlist task, including required browser verification, approval, failure recovery, and evidence before marking it complete.
+
+[hackathon.md](hackathon.md) records actual progress, failures, fixes, verification, and demo/submission readiness. Repository instructions require a concise factual entry after each meaningful implementation session, following the official neatHack build companion.
 
 The renderer is sandboxed, has no Node.js access, and uses context isolation. The production shell loads local assets through the restricted `nexus://app/` protocol with a Content Security Policy. New windows, page navigation, and browser permissions are denied. The preload exposes only platform and Electron version metadata. Privileged workflow APIs will need specific, validated IPC contracts when implemented.
 
