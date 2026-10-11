@@ -74,6 +74,14 @@ The intended model endpoint is OpenAI-compatible; no model client or call is imp
 - Checks include repository hook inspection, checkpoint metadata verification, documentation diff checks, and preservation of prior history. A sandboxed Node subprocess ancestry check encountered `EPERM`; the read-only ancestry check was retried with execution permission.
 - No product code, credentials, private transcripts, or customer data were published. Next: approve Codex hooks, complete Entire GitHub onboarding, then review and explicitly authorize any checkpoint synchronization before claiming a shareable link.
 
+### October 11, 2026 (WAT) — Entire linkage verification result
+
+- Documentation commit `1ba47ed` references real checkpoint `01M4PJQYJYSVZHDH8GEB4A239Y`. `entire checkpoint list` now returns one checkpoint; `entire checkpoint explain HEAD --short --no-pager` confirms the Codex session/commit association.
+- Privately checked that the stored transcript includes the actual verification request and no literal matches for configured credential values. The transcript was not printed into this log or published. Its intent preview is a context marker, not a generated task summary; actual session content is retained.
+- Network-enabled `git ls-remote origin` returned no refs; GitHub confirms the public repository is empty. `entire status --detailed` reports one checkpoint not on origin, disabled automatic pushing, and seven hooks still needing approval. Entire repository lookup reports no CLI login, so hosted import and shareable access are unverified.
+- Confirmed all five pre-existing code commits remain ancestors of the new HEAD. No history was rewritten. The local recovery and documentation-link checks passed; no runtime tests were needed for this documentation-only improvement.
+- Next: approve project hooks for automatic capture, sign in to Entire and authorize its GitHub App for the selected repository, then privately review captured context before explicitly authorizing any sync. The share URL remains conditional on that review and synchronization.
+
 ## Demo
 
 **Public demo/video URL:** Pending. **Fixture URL:** Pending. The [procurement-shortlist demo](docs/demo-acceptance.md) is a draft acceptance plan, not a working demonstration.

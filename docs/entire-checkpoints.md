@@ -21,6 +21,8 @@ Installed Entire `0.11.4` supports `entire session attach --agent codex <real-se
 
 Use only the returned checkpoint ID in a new commit's trailer, then run the list and explanation commands above. This manual recovery is not evidence that automatic hooks ran. Verify automatic capture separately after hook approval. The session recovered during this check produced local checkpoint `01M4PJQYJYSVZHDH8GEB4A239Y`; no checkpoint contents were published.
 
+Verification found one linked checkpoint and the actual verification request in its stored transcript. The current intent preview is an application context marker, and no generated summary is available; inspect the actual Sessions content privately rather than presenting the preview as a task summary.
+
 ## GitHub and sharing
 
 The builder-authorized public repository is [abeebridwan/improvisus-nexus](https://github.com/abeebridwan/improvisus-nexus), connected as `origin`. It was created without pushing code or checkpoint refs. Entire CLI login is absent; hosted import, GitHub App access, and checkpoint sync remain unverified.
