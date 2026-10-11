@@ -1,12 +1,20 @@
 import { app, BrowserWindow, net, protocol } from 'electron'
 import { dirname, resolve, sep } from 'node:path'
 import { fileURLToPath, pathToFileURL } from 'node:url'
+import { existsSync } from 'node:fs'
+import { loadEnvFile } from 'node:process'
+import { trace } from 'neatlogs'
+import { initializeTracing, stopTracing } from './observability'
 
 const here = dirname(fileURLToPath(import.meta.url))
 const rendererRoot = resolve(here, '../renderer')
 const appUrl = 'nexus://app/'
 const devUrl = process.env.ELECTRON_RENDERER_URL
 const csp = "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'none'; object-src 'none'; base-uri 'none'; frame-src 'none'; form-action 'none'"
+let tracingEnabled = false
+
+const envPath = resolve(app.getAppPath(), '.env')
+if (!app.isPackaged && existsSync(envPath)) loadEnvFile(envPath)
 
 protocol.registerSchemesAsPrivileged([
   { scheme: 'nexus', privileges: { standard: true, secure: true, supportFetchAPI: true } }
@@ -57,6 +65,17 @@ async function createWindow(): Promise<void> {
 
   window.webContents.session.setPermissionRequestHandler((_contents, _permission, callback) => callback(false))
   window.webContents.session.setPermissionCheckHandler(() => false)
+  if (!app.isPackaged && devUrl) {
+    window.webContents.session.webRequest.onHeadersReceived(
+      { urls: ['http://127.0.0.1:5173/*'] },
+      (details, callback) => callback({
+        responseHeaders: {
+          ...details.responseHeaders,
+          'Content-Security-Policy': ["default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; connect-src 'self' ws://127.0.0.1:5173; object-src 'none'; base-uri 'none'; frame-src 'none'; form-action 'none'"]
+        }
+      })
+    )
+  }
   window.webContents.setWindowOpenHandler(() => ({ action: 'deny' }))
   window.webContents.on('will-navigate', (event) => event.preventDefault())
   window.webContents.on('will-redirect', (event) => event.preventDefault())
@@ -75,13 +94,28 @@ async function createWindow(): Promise<void> {
 app.setName('Improvisus Nexus')
 app.whenReady().then(async () => {
   serveRenderer()
-  await createWindow()
+  tracingEnabled = await initializeTracing()
+  if (tracingEnabled) {
+    await trace({ name: 'desktop.start', kind: 'CHAIN' }, createWindow)
+  } else {
+    await createWindow()
+  }
   app.on('activate', () => {
     if (BrowserWindow.getAllWindows().length === 0) void createWindow()
   })
 }).catch((error: unknown) => {
   console.error('Desktop startup failed:', error)
-  app.exit(1)
+  process.exitCode = 1
+  app.quit()
+})
+
+app.on('before-quit', (event) => {
+  if (!tracingEnabled) return
+  event.preventDefault()
+  tracingEnabled = false
+  void stopTracing().catch((error: unknown) => {
+    console.error('neatlogs shutdown failed:', error)
+  }).finally(() => app.quit())
 })
 
 app.on('window-all-closed', () => {

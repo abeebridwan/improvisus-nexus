@@ -5,17 +5,23 @@
   "private": true,
   "type": "module",
   "main": "out/main/index.js",
-  "engines": { "node": ">=22.12.0" },
+  "engines": {
+    "node": ">=22.12.0"
+  },
   "scripts": {
-    "dev": "electron-vite dev",
-    "start": "electron-vite preview",
+    "dev": "node scripts/desktop.mjs dev",
+    "start": "node scripts/desktop.mjs preview",
     "build": "electron-vite build",
     "typecheck": "tsc --noEmit -p tsconfig.node.json && tsc --noEmit -p tsconfig.web.json",
     "test": "npm run build && node scripts/smoke-desktop.mjs",
     "check": "npm run typecheck && npm test",
-    "browser:install": "playwright install chromium"
+    "browser:install": "playwright install chromium",
+    "neatlogs:doctor": "neatlogs doctor --local --json",
+    "entire:status": "entire status --detailed",
+    "insta": "insta"
   },
   "dependencies": {
+    "neatlogs": "^1.1.28",
     "playwright": "1.64.0",
     "react": "19.3.0",
     "react-dom": "19.3.0"
@@ -27,6 +33,7 @@
     "@vitejs/plugin-react": "5.2.0",
     "electron": "44.7.0",
     "electron-vite": "5.0.0",
+    "insta": "^0.1.23",
     "typescript": "7.0.2",
     "vite": "7.3.7"
   }
