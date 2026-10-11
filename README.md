@@ -47,11 +47,11 @@ Build tooling follows [electron-vite conventions](https://electron-vite.org/guid
 ## Integration status
 
 - **neatlogs:** official SDK installed; main-process startup tracing, graceful shutdown, and inert agent instrumentation presets prepared. `npm run neatlogs:doctor` and authenticated `npm run neatlogs:probe` passed, including finalized hosted diagnostic readback. Real application/agent traces require separate verification. Credentials stay in the ignored, owner-only `.env` or process environment.
-- **Entire:** CLI installed and Git/Codex hooks configured. Open `/hooks` in a project Codex session to approve capture. This initialization session was not captured. Check `npm run entire:status` and `entire doctor`.
+- **Entire:** CLI and Git/Codex hooks configured; the real Codex session has a manually recovered local checkpoint. Approve `/hooks` for automatic capture. Hosted sync remains unverified; see [checkpoint verification](docs/entire-checkpoints.md).
 - **Agent37:** official hosted API verified; configuration placeholders documented. No local runtime package or agent instance installed/provisioned.
 - **InstaCloud:** official `insta` CLI installed and version checked. No cloud resources or custom publisher created.
 - **cfo.ai:** [official signup and financial-plan inputs](docs/business-plan/README.md) documented; signup and plan remain manual work.
 
 See [setup details and remaining manual steps](docs/integrations.md) and [verified results](docs/verification.md). Copy `.env.example` to `.env` if configuring tracing; all credentials are optional for the shell and no fake values are provided. The model provider and Search settings are reserved for future implementation.
 
-The current neatlogs dependency tree has unresolved npm advisories; compatible fixes were checked. No remote repository has been published or pushed.
+The current neatlogs dependency tree has unresolved npm advisories; compatible fixes were checked. The [public GitHub repository](https://github.com/abeebridwan/improvisus-nexus) exists and is connected as `origin`; no code or checkpoint data has been pushed.

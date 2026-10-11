@@ -24,7 +24,7 @@ This record follows the [official neatHack build-companion skill](https://neatlo
 | Playwright / Chromium | Installed; desktop smoke and standalone Chromium launch checks passed. No website workflow runner implemented. |
 | WebMCP | Generator/discovery boundaries and demo acceptance criteria documented. No capability generated, installed, or invoked. |
 | neatlogs — mandatory | TypeScript SDK `1.1.28` in the main process; startup lifecycle and inert agent presets prepared. Local diagnostic and authenticated hosted diagnostic passed. The controlled trace finalized with exact four-span readback; application startup finalization and agent workflows are not independently verified. |
-| Entire — mandatory | CLI `0.11.4`, Git hooks, and Codex hooks configured. Latest status: enabled, seven hooks awaiting approval; automatic checkpoint publishing disabled. No captured session checkpoint verified. |
+| Entire — mandatory | CLI `0.11.4` and Git/Codex hooks configured; seven hooks still await approval. A real Codex transcript was manually captured as local checkpoint `01M4PJQYJYSVZHDH8GEB4A239Y` without amending HEAD. Automatic capture and hosted sync are not verified; publishing stays disabled. |
 | cfo.ai — mandatory | Official event signup and model-input checklist documented. No plan export, credit confirmation, or account completion evidence recorded. |
 
 The intended model endpoint is OpenAI-compatible; no model client or call is implemented. The latest neatlogs check verified that a project key was present and authenticated successfully, without recording its value.
@@ -65,6 +65,15 @@ The intended model endpoint is OpenAI-compatible; no model client or call is imp
 - Evidence: [verification notes](docs/verification.md) and the [official Doctor contract](https://docs.neatlogs.com/sdk/doctor). No private trace payloads, project details, credential values, or authenticated trace links were written to this log.
 - Remaining check: confirm the actual `improvisus-nexus` / `desktop.start` span in the project's dashboard. Product workflows remain unimplemented. No credentials or runtime source files were changed.
 
+### October 11, 2026 (WAT) — Entire session verification and safe recovery
+
+- Read the official Entire neatHack guide and checked CLI `0.11.4`, repository hooks, status, current session, and checkpoint commands. Initially there were zero checkpoints and `explain HEAD` found no trailer; seven Codex hooks still required approval.
+- The installed version's official attachment implementation was checked. Noninteractive `entire session attach --agent codex` captured the real current session and returned `01M4PJQYJYSVZHDH8GEB4A239Y`, while preserving the existing HEAD. This is manual capture, not proof of automatic hook execution.
+- Added a small [checkpoint verification/recovery guide](docs/entire-checkpoints.md) that separates local session capture, commit linkage, and hosted sharing. A new documentation commit will use only the real returned trailer; existing commits are not amended.
+- At the builder's instruction, created public GitHub repository `abeebridwan/improvisus-nexus` and connected `origin`, without pushing code or checkpoint data. Entire CLI login is absent; hosted GitHub App access and checkpoint sync are unverified.
+- Checks include repository hook inspection, checkpoint metadata verification, documentation diff checks, and preservation of prior history. A sandboxed Node subprocess ancestry check encountered `EPERM`; the read-only ancestry check was retried with execution permission.
+- No product code, credentials, private transcripts, or customer data were published. Next: approve Codex hooks, complete Entire GitHub onboarding, then review and explicitly authorize any checkpoint synchronization before claiming a shareable link.
+
 ## Demo
 
 **Public demo/video URL:** Pending. **Fixture URL:** Pending. The [procurement-shortlist demo](docs/demo-acceptance.md) is a draft acceptance plan, not a working demonstration.
@@ -82,9 +91,9 @@ The foundation can be reproduced with `npm ci`, `npm run typecheck`, and `npm te
 
 1. Product capabilities, Search integration, permissions for product actions, recovery, and task verification remain unimplemented. The desktop's denied permissions are foundation security settings, not an agent permission system.
 2. neatlogs' authenticated controlled pipeline is verified. Application startup finalization still needs independent dashboard confirmation, and hosted Agent37 internals require actual instrumentation/event access. Never copy private values into this log.
-3. Entire capture needs project hook approval and a real development session; Git commit hashes are not checkpoint IDs.
+3. Entire now has a real manually captured session checkpoint; automatic capture still needs project hook approval. Hosted synchronization and shareable access are unverified; Git commit hashes are not checkpoint IDs.
 4. cfo.ai signup, billing/credit confirmation, pricing/cost/revenue/runway model, and exported submission evidence remain manual work.
-5. Dependency advisories, public repository publication, demo evidence, and build-in-public posts remain outstanding. No remote is configured locally at this check; no public repository URL is recorded.
+5. Dependency advisories, source/checkpoint publication, demo evidence, and build-in-public posts remain outstanding. The public GitHub repository exists at `https://github.com/abeebridwan/improvisus-nexus`; `origin` is connected, but no code or checkpoint was pushed.
 
 ## Submission
 
