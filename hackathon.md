@@ -164,6 +164,21 @@ Provider metadata requests now use fixed OpenAI/OpenRouter endpoints; no inferen
 - Entire status still resolves the old ended session and reports four hook approvals needed. Hooks/history remain intact; no fresh checkpoint or hosted sync is claimed for this implementation. [Provider setup and verification](docs/providers.md) documents supported APIs, Agent37 binding limits and remaining manual checks.
 - Next: check real keys directly through Settings, then separately connect actual workflow and Agent37 backends.
 
+### October 12, 2026 (WAT) — retrospective: local workflow discovery JSON troubleshooting and rollback
+
+- Local Project → Discover workflows failed with `Unexpected token '/', ..."startPath":/ ... is not valid JSON`. The main-process helper attempted to parse model-generated text directly; this was not evidence of a completed discovery or browser-verified workflow.
+- Tried JSON-object response mode, bounded retries, schema validation and sanitized errors. TypeScript, production build and offline fixture checks passed for that first change, but no successful live discovery was verified. The builder subsequently reported `The model returned invalid JSON after two attempts. Retry discovery or choose another model in Settings.`
+- Follow-up attempts added jsonrepair syntax recovery, supplied the rejected response to the retry, and replaced greedy brace extraction with fenced/balanced-object extraction. No tests, builds or live provider calls were run for these follow-ups, as requested. The builder confirmed restarting the application and using OpenRouter, but the exact selected model and raw response were not inspected. These attempts did not establish a successful fix.
+- Latest builder-reported failure: `Expected ':' after property name in JSON at position 849 (line 29 column 42)`. This reports malformed JSON syntax; its position alone does not establish why the model produced it. No response fragments, credentials or private source data are included here.
+- At the builder's rollback request, inspection found the original parser/request implementation already restored, with the added repair dependency, regression-test script and modified call sites absent. No further code rollback was necessary; existing Core development changes were preserved. This entry restores the factual troubleshooting record without claiming the issue is fixed.
+- Discovery remains unresolved. Next investigation: identify the exact model and inspect safe response metadata/format before choosing a supported structured-output approach. No tests, builds, application launches, API requests, commits or checkpoint-publication operations were performed in this documentation session.
+
+### October 12, 2026 (WAT) — Core implementation commit preparation
+
+- The builder reports successful Local Project and Website URL runs. Inspected the uncommitted controller, validated IPC, discovery/generation, reviewed-batch approval, local apply/build/Git flow, Chromium verification and remote publishing code. These paths are implemented; this session has not independently reproduced the builder's live provider/publisher runs.
+- Existing staged Core implementation and the separate working-tree JSON repair change can be attributed to distinct commits. Preserving unrelated Codex observability-hook changes outside these commits. Current TypeScript checks pass. Entire reports Codex enabled with four hook approvals pending; no new checkpoint capture or publication is claimed.
+- Next: commit the existing implementation and JSON repair separately, then improve only the Core frontend and verify controlled fixture flows through its real IPC/backend.
+
 ## Demo
 
 **Public demo/video URL:** Pending. **Fixture URL:** Pending. The [procurement-shortlist demo](docs/demo-acceptance.md) is a draft acceptance plan, not a working demonstration.

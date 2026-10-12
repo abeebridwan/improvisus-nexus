@@ -21,13 +21,18 @@
     "neatlogs:probe": "node --env-file=.env node_modules/neatlogs/dist/cli.mjs doctor --probe --json",
     "neatlogs:verify-desktop": "npm run build && node scripts/verify-neatlogs-desktop.mjs",
     "entire:status": "entire status --detailed",
-    "insta": "insta"
+    "insta": "insta",
+    "core:probe": "tsx scripts/core-probe.ts"
   },
   "dependencies": {
+    "diff": "^9.0.0",
     "neatlogs": "^1.1.28",
+    "openai": "^7.28.0",
     "playwright": "1.64.0",
     "react": "19.3.0",
-    "react-dom": "19.3.0"
+    "react-dom": "19.3.0",
+    "simple-git": "^4.0.2",
+    "zod": "^4.6.5"
   },
   "devDependencies": {
     "@types/node": "22.20.5",
@@ -37,6 +42,7 @@
     "electron": "44.7.0",
     "electron-vite": "5.0.0",
     "insta": "^0.1.23",
+    "tsx": "^4.23.15",
     "typescript": "7.0.2",
     "vite": "7.3.7"
   }

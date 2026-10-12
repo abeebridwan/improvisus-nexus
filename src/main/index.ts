@@ -8,6 +8,8 @@ import { initializeTracing, stopTracing } from './observability'
 import { EncryptedCredentialStore } from './providers/store'
 import { ProviderService } from './providers/service'
 import { registerProviderIPC } from './providers/ipc'
+import { configureAiRuntime } from './core/ai-client'
+import { registerCoreIPC } from './core/ipc'
 
 const here = dirname(fileURLToPath(import.meta.url))
 const rendererRoot = resolve(here, '../renderer')
@@ -82,6 +84,7 @@ async function createWindow(): Promise<{ rendererLoaded: true }> {
   }
   window.webContents.setWindowOpenHandler(() => ({ action: 'deny' }))
   registerProviderIPC(window, providers, !app.isPackaged && !!devUrl, tracingEnabled)
+  registerCoreIPC(window, !app.isPackaged && !!devUrl)
   window.webContents.on('will-navigate', (event) => event.preventDefault())
   window.webContents.on('will-redirect', (event) => event.preventDefault())
   window.webContents.on('will-attach-webview', (event) => event.preventDefault())
@@ -106,6 +109,8 @@ app.setName('Improvisus Nexus')
 app.whenReady().then(async () => {
   serveRenderer()
   providers = new ProviderService(new EncryptedCredentialStore(app.getPath('userData'), safeStorage))
+  configureAiRuntime(providers)
+
   // Register saved keys with the telemetry mask before enabling any export.
   await providers.status().catch(() => {})
   tracingEnabled = await initializeTracing()

@@ -1,3 +1,5 @@
+/// <reference types="vite/client" />
+
 import type { DesktopInfo } from '../../shared/desktop'
 
 declare global {
@@ -5,3 +7,7 @@ declare global {
     nexus: DesktopInfo
   }
 }
+
+declare module '*.css' {}
+
+export {}

@@ -66,3 +66,20 @@ article p { font-size: 14px; color: #aeb7a5; line-height: 1.65; margin: 0 0 24px
 footer { border-top: 1px solid #30372e; margin-top: 32px; padding-top: 20px; color: #939e89; font-size: 12px; }
 .dot { display: inline-block; width: 6px; height: 6px; margin-right: 8px; background: #bce58b; border-radius: 50%; }
 @media (max-width: 760px) { main { padding: 24px; } .intro { padding-top: 24px; } .directions { grid-template-columns: 1fr; } footer, header { flex-wrap: wrap; } .actions, .provider-summary { flex-wrap: wrap; } .steps { gap: 16px; flex-wrap: wrap; } .choice { padding: 20px; } }
+.core-output {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  max-height: 420px;
+  overflow: auto;
+  padding: 16px;
+  background: #111411;
+  border: 1px solid #3c4437;
+  border-radius: 8px;
+}
+
+.core-candidate {
+  display: flex;
+  gap: 12px;
+  margin: 16px 0;
+  color: #aeb7a5;
+}
