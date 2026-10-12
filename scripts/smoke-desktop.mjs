@@ -55,7 +55,7 @@ try {
   assert.equal(isolation.node, 'undefined')
   assert.equal(isolation.process, 'undefined')
   assert.ok(isolation.electron)
-  assert.deepEqual(isolation.bridge, ['electron', 'platform', 'providers'])
+  assert.deepEqual(isolation.bridge, ['core', 'electron', 'platform', 'providers'])
   const preferences = await desktop.evaluate(({ BrowserWindow }) => {
     const window = BrowserWindow.getAllWindows()[0]
     const prefs = window.webContents.getLastWebPreferences()
@@ -78,6 +78,8 @@ try {
   await page.screenshot({ path: 'artifacts/onboarding-feature.png', fullPage: true })
 
   assert.deepEqual(await page.evaluate(() => Object.keys(window.nexus.providers).sort()), ['cancel', 'remove', 'save', 'status', 'validate'])
+  assert.deepEqual(await page.evaluate(() => Object.keys(window.nexus.core).sort()), ['approve', 'discard', 'discover', 'onStep', 'pickFolder', 'prepare'])
+  assert.equal((await page.evaluate(() => window.nexus.core.discover({ mode: 'other', targetUrl: 'https://example.com' }))).ok, false)
   const badRequest = await page.evaluate(() => window.nexus.providers.validate({ provider: 'openai', endpoint: 'https://example.com' }))
   assert.equal(badRequest.code, 'INVALID_REQUEST')
   // A child frame cannot access the privileged, main-frame provider handlers.
@@ -85,11 +87,11 @@ try {
     const contents = BrowserWindow.getAllWindows()[0].webContents
     await contents.executeJavaScript(`document.body.appendChild(document.createElement('iframe'))`)
     const child = contents.mainFrame.frames[0]
-    const result = await child.executeJavaScript(`window.nexus ? window.nexus.providers.status() : null`)
+    const result = await child.executeJavaScript(`window.nexus ? Promise.all([window.nexus.providers.status(), window.nexus.core.discover({mode:'url',targetUrl:'https://example.com'})]) : null`)
     await contents.executeJavaScript(`document.querySelector('iframe').remove()`)
     return result
   })
-  assert.ok(denied === null || (denied.ok === false && denied.code === 'FORBIDDEN'))
+  assert.ok(denied === null || (denied[0].ok === false && denied[0].code === 'FORBIDDEN' && denied[1].ok === false))
   const continueButton = page.getByRole('button', { name: 'Continue', exact: true })
   assert.equal(await continueButton.isDisabled(), true)
   await page.getByRole('radio', { name: /Nexus Core/ }).check()
@@ -133,7 +135,7 @@ try {
     await page.getByLabel('Local project path').fill('/tmp/example-project')
     await page.getByRole('radio', { name: 'Website URL', exact: true }).check()
     await page.getByRole('textbox', { name: 'Website URL', exact: true }).fill('https://example.com')
-    assert.equal(await page.getByRole('button', { name: 'Discover workflows' }).isDisabled(), true)
+    assert.equal(await page.getByRole('button', { name: 'Discover workflows' }).isDisabled(), false)
     await page.getByRole('button', { name: 'Nexus Agent', exact: true }).click()
     await page.getByLabel('What would you like Nexus to do?').fill('Find one capability')
     assert.equal(await page.getByRole('button', { name: 'Discover capabilities' }).isDisabled(), true)

@@ -83,7 +83,7 @@ function App() {
   }
 
   return (
-    <main>
+    <main className={screen === 'workspace' && feature === 'core' ? 'core-screen' : undefined}>
       <header>
         <span className="wordmark">
           IMPROVISUS <span>NEXUS</span>

@@ -15,6 +15,7 @@
     "build": "electron-vite build",
     "typecheck": "tsc --noEmit -p tsconfig.node.json && tsc --noEmit -p tsconfig.web.json",
     "test": "node --experimental-strip-types --test scripts/observability.test.mjs scripts/providers.test.mjs scripts/model-json.test.mjs && npm run build && node scripts/smoke-desktop.mjs",
+    "test:core": "npm run build && node scripts/core-ui.mjs",
     "check": "npm run typecheck && npm test",
     "browser:install": "playwright install chromium",
     "neatlogs:doctor": "neatlogs doctor --local --json",
