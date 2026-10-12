@@ -11,6 +11,7 @@
   "scripts": {
     "dev": "node scripts/desktop.mjs dev",
     "start": "node scripts/desktop.mjs preview",
+    "setup:linux": "node scripts/setup-linux-sandbox.mjs",
     "build": "electron-vite build",
     "typecheck": "tsc --noEmit -p tsconfig.node.json && tsc --noEmit -p tsconfig.web.json",
     "test": "node --experimental-strip-types --test scripts/observability.test.mjs && npm run build && node scripts/smoke-desktop.mjs",

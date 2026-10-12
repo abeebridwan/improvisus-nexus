@@ -17,9 +17,11 @@ npm run build
 npm start
 ```
 
-`npm start` opens the last build. `npm test` builds and launches the real Electron app through Playwright, verifies rendering and security settings, and writes `artifacts/desktop-smoke.png`. On Linux without a display, use `xvfb-run -a npm test`. Keep Chromium sandbox support enabled on the host.
+`npm start` builds and opens the production desktop. `npm test` builds and launches the real Electron app through Playwright with Chromium sandboxing enabled, verifies rendering and security settings, and writes `artifacts/desktop-smoke.png`. On Linux without a display, use `xvfb-run -a npm test`.
 
-Launch scripts clear an inherited `ELECTRON_RUN_AS_NODE` flag so the app also starts from coding environments that set it. Development uses a loopback Vite server and a development-only CSP relaxation for React refresh and HMR; built assets use the restrictive production policy.
+On Ubuntu with restricted user namespaces, run `npm run setup:linux` once from your own terminal; sudo installs a profile scoped to this checkout's Electron executable. Review it first with `npm run setup:linux -- --print`. See [Linux setup and rollback](docs/linux-development.md). This setup preserves Chromium sandboxing and survives dependency reinstalls at the same path.
+
+Launch scripts clear an inherited `ELECTRON_RUN_AS_NODE` flag and resolve Electron's lazily downloaded executable before starting electron-vite. Development uses a loopback Vite server and a development-only CSP relaxation for React refresh and HMR; built assets use the restrictive production policy.
 
 `npm run browser:install` downloads Playwright Chromium for future website verification; the desktop smoke test uses Electron's bundled Chromium.
 

@@ -70,3 +70,15 @@ neatlogs --host https://app.neatlogs.com --profile nexus-us --credential-source 
 ```
 
 Follow `nextCursor` until pagination completes. `traces get` alone does not return spans. Use the installed CLI's help/schema for raw previews or selected payloads. If saved login expires, repeat the human-approved device flow; another machine needs its own login. For an EU project, select its actual EU dashboard and a separate matching profile. No trace-sharing setting was enabled and no public/share URL is claimed.
+
+## Electron installation and Linux sandbox fix — October 12, 2026 (WAT)
+
+The builder's terminal exposed two launch failures: electron-vite reported `Electron uninstall` immediately after `npm ci`, and production preview aborted because the extracted `chrome-sandbox` helper was not configured for setuid use. Electron `44.7.0` installs its executable lazily through its package entry point; electron-vite `5.0.0` instead reads `path.txt` directly. The launch wrapper now resolves Electron's official entry point first and supplies `ELECTRON_EXEC_PATH` to electron-vite.
+
+Ubuntu's AppArmor user-namespace restriction was enabled. Added `npm run setup:linux` to validate and install a per-executable AppArmor profile using administrator authentication, following Ubuntu's documented browser-profile approach. It grants the local Electron binary user-namespace permission without changing the global restriction, adding sandbox-disabling flags or setting the binary setuid. See [Linux setup](linux-development.md). Profile syntax passed; automated installation stopped at sudo's interactive-authentication requirement. The builder then reported setup completed in their terminal. The installed profile file was not visible in this tool filesystem, so independent host-policy inspection is not claimed.
+
+Earlier Playwright smoke runs allowed its default `chromiumSandbox: false`. Their passing renderer preferences did not establish OS sandboxing. The smoke test now explicitly sets `chromiumSandbox: true` and checks the main-process arguments for sandbox-disabling flags.
+
+Verification passed after a fresh `npm ci --no-audit --no-fund`: resolving Electron downloaded the binary and electron-vite's version command succeeded; `npm run check` passed TypeScript, credential masking, build and the sandbox-enabled Electron smoke. Both actual dev and production preview launchers rendered the expected React window and exited normally, with no sandbox-disabling arguments in Chromium's command line. The first temporary dev harness timed out because electron-vite replaced the debug environment arguments; retrying with its supported `--` argument forwarding passed. That was a verification-harness correction, not an additional product failure.
+
+Existing staged `.gitignore` and artifact changes were preserved, including the original screenshot. Dependency versions, application features and `.env` were unchanged. Entire attachment returned the previously captured session checkpoint rather than capturing this new debugging iteration; no fresh checkpoint or current-session linkage is claimed. Automatic checkpoint publishing remains disabled.

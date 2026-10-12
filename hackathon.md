@@ -101,6 +101,15 @@ The intended model endpoint is OpenAI-compatible; no model client or call is imp
 - Checks: original URL/title/timestamp metadata comparison, evidence JSON parsing, local documentation links and `git diff --check`. No runtime test was needed for these documentation-only changes. No product code, financial model, sharing permission, billing setting or account credential was changed.
 - Next: obtain readable exports of all four plans, preserve the original results, review their calculations, and add sanitized cfo.ai demo evidence. Financial recommendations require separate approval before implementation.
 
+### October 12, 2026 (WAT) — Electron lazy installation and Linux sandbox repair
+
+- Diagnosed the builder's `Electron uninstall` and SUID helper abort. Electron `44.7.0` downloads lazily; electron-vite expected `path.txt` first. The launch wrapper now resolves the official Electron entry point before invoking electron-vite.
+- Added a reviewed, syntax-validated `npm run setup:linux` for Ubuntu's per-executable AppArmor user-namespace permission, with setup/rollback documentation. The tool could not authenticate interactive sudo; the builder reported completing setup locally. The profile was not visible to the tool filesystem, so no independent inspection of host installation is claimed. No global sandbox restriction or setuid bit was changed by project code.
+- Corrected Playwright smoke verification to require `chromiumSandbox: true` and reject sandbox-disabling launch arguments. Earlier renderer sandbox-preference checks masked the platform failure because Playwright disabled Chromium sandboxing by default.
+- Passed fresh dependency installation, lazy binary resolution, TypeScript, masking test, build, sandbox-enabled Electron smoke, and actual dev/production preview rendering and graceful exit. The first dev verification harness timed out; using supported CLI argument forwarding corrected its debugging connection. Evidence: [verification notes](docs/verification.md) and [Linux setup](docs/linux-development.md).
+- Preserved existing staged `.gitignore` and artifacts, including the original screenshot. No dependencies, credentials, product features or external publications changed. Entire session attachment returned old checkpoint `01M4PJQYJYSVZHDH8GEB4A239Y`; it did not capture this debugging iteration or amend HEAD. Fresh automatic checkpoint capture remains unverified; pushing stays disabled.
+- Next: use the working desktop commands for the first browser capability milestone, and verify fresh Entire capture in a new development session.
+
 ## Demo
 
 **Public demo/video URL:** Pending. **Fixture URL:** Pending. The [procurement-shortlist demo](docs/demo-acceptance.md) is a draft acceptance plan, not a working demonstration.

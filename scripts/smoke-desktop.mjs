@@ -6,7 +6,7 @@ import { _electron } from 'playwright'
 const env = { ...process.env }
 delete env.ELECTRON_RUN_AS_NODE
 delete env.ELECTRON_RENDERER_URL
-const desktop = await _electron.launch({ args: ['.'], env, timeout: 30_000 })
+const desktop = await _electron.launch({ args: ['.'], env, chromiumSandbox: true, timeout: 30_000 })
 try {
   const page = await desktop.firstWindow()
   await page.getByRole('heading', { name: 'A place for agents to get work done.' }).waitFor()
@@ -29,6 +29,9 @@ try {
     return { sandbox: prefs.sandbox, contextIsolation: prefs.contextIsolation, nodeIntegration: prefs.nodeIntegration, webSecurity: prefs.webSecurity }
   })
   assert.deepEqual(preferences, { sandbox: true, contextIsolation: true, nodeIntegration: false, webSecurity: true })
+  const launchArgs = await desktop.evaluate(() => process.argv)
+  assert.equal(launchArgs.includes('--no-sandbox'), false)
+  assert.equal(launchArgs.includes('--disable-setuid-sandbox'), false)
   assert.equal(await page.evaluate(() => Notification.requestPermission()), 'denied')
   await page.evaluate(() => window.open('https://example.com'))
   assert.equal(desktop.windows().length, 1)
@@ -40,7 +43,7 @@ try {
   assert.ok(policy.includes("connect-src 'none'"))
   await mkdir('artifacts', { recursive: true })
   await page.screenshot({ path: 'artifacts/desktop-smoke.png' })
-  console.log('PASS: Electron launch, React render, preload, sandbox, isolation, permission denial, popup denial')
+  console.log('PASS: Electron launch with Chromium sandbox enabled, React render, preload, isolation, permission denial, popup denial')
 } finally {
   await desktop.close()
 }
