@@ -1,0 +1,37 @@
+appId: tech.improvisus.nexus
+productName: Improvisus Nexus
+executableName: improvisus-nexus
+asar: true
+npmRebuild: false
+directories:
+  output: release
+files:
+  - out/**/*
+  - package.json
+  - '!**/*.map'
+  - '!**/.env*'
+  - '!**/provider-config.enc'
+asarUnpack:
+  - node_modules/playwright/**/*
+  - node_modules/playwright-core/**/*
+extraResources:
+  - from: .release-resources/browsers
+    to: browsers
+    filter:
+      - '**/*'
+      - '!**/.links/**'
+artifactName: '${name}-${version}-${os}-${arch}.${ext}'
+linux:
+  target: deb
+  category: Utility
+  maintainer: abeebridwan <66317334+abeebridwan@users.noreply.github.com>
+win:
+  target: nsis
+nsis:
+  oneClick: false
+  perMachine: false
+  allowToChangeInstallationDirectory: true
+mac:
+  target: zip
+  category: public.app-category.productivity
+  identity: null

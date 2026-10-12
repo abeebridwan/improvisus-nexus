@@ -20,8 +20,9 @@ const csp = "default-src 'self'; script-src 'self'; style-src 'self'; img-src 's
 let tracingEnabled = false
 let providers: ProviderService
 
-const envPath = resolve(app.getAppPath(), '.env')
-if (!app.isPackaged && existsSync(envPath)) loadEnvFile(envPath)
+// Release configuration belongs to the local user profile, never the archive.
+const envPath = app.isPackaged ? resolve(app.getPath('userData'), 'nexus.env') : resolve(app.getAppPath(), '.env')
+if (existsSync(envPath)) loadEnvFile(envPath)
 
 protocol.registerSchemesAsPrivileged([
   { scheme: 'nexus', privileges: { standard: true, secure: true, supportFetchAPI: true } }
