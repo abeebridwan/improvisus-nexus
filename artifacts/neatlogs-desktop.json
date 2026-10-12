@@ -1,0 +1,32 @@
+{
+  "traceId": "ce86d68cc277c0f8327a06fff49c04f3",
+  "workflow": "improvisus-nexus",
+  "status": "OK",
+  "finalizationStatus": "finalized",
+  "spans": [
+    {
+      "spanId": "d31438e71cda8b9e",
+      "parentSpanId": null,
+      "spanName": "desktop.start",
+      "spanType": "WORKFLOW",
+      "status": "OK",
+      "durationMs": 648
+    },
+    {
+      "spanId": "4342521468b475fe",
+      "parentSpanId": "d31438e71cda8b9e",
+      "spanName": "desktop.renderer.load",
+      "spanType": "CHAIN",
+      "status": "OK",
+      "durationMs": 503
+    }
+  ],
+  "checks": {
+    "localLaunch": "passed",
+    "metadata": "passed",
+    "completePagination": "passed",
+    "rawParentLinks": "passed",
+    "noDuplicateOperations": "passed",
+    "safeInputsOutputs": "passed"
+  }
+}

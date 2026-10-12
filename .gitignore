@@ -5,7 +5,9 @@ release/
 .env
 .env.*
 !.env.example
-artifacts/
+artifacts/*
+!artifacts/desktop-smoke.png
+!artifacts/neatlogs-desktop.json
 playwright-report/
 test-results/
 *.log
