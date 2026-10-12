@@ -4,7 +4,22 @@ Electron 44 downloads its executable on first use, not during `npm ci`. The desk
 
 ## Ubuntu's Chromium sandbox
 
-Ubuntu restricts unprivileged user namespaces through AppArmor. The extracted Electron binary does not automatically receive the distribution's browser profile. If native sandbox setup is unavailable, Chromium can report that `chrome-sandbox` is not root-owned with mode `4755` and abort. The repository uses a per-executable AppArmor permission to allow Chromium's namespace sandbox, following [Ubuntu's documented approach](https://documentation.ubuntu.com/release-notes/24.04/#unprivileged-user-namespace-restrictions).
+Ubuntu restricts unprivileged user namespaces through AppArmor. The extracted Electron binary does not automatically receive the distribution's browser profile. If native sandbox setup is unavailable, Chromium can report that `chrome-sandbox` is not root-owned with mode `4755` and abort.
+
+Launch scripts automatically set `CHROME_DEVEL_SANDBOX=/opt/google/chrome/chrome-sandbox` when the installed helper is a regular, root-owned, setuid executable without group/world write permissions. This follows [Chromium's documented developer-build approach](https://chromium.googlesource.com/chromium/src/+/main/docs/security/apparmor-userns-restrictions.md). An explicitly supplied `CHROME_DEVEL_SANDBOX` takes precedence. The same environment preparation is used by development, production preview, smoke tests and tracing verification. No system permissions or global kernel restrictions are changed.
+
+Run `npm start` or `npm run dev` as your normal user. `sudo npm start` is rejected before building: Electron cannot normally run as root, and root builds leave files that your account cannot replace. If you previously built with sudo, repair generated output from your own terminal:
+
+```sh
+sudo chown -R --no-dereference "$(id -u):$(id -g)" out
+npm start
+```
+
+Enter your administrator password only at your own terminal's sudo prompt. Never launch the application with sudo.
+
+### AppArmor alternative
+
+If the installed Chrome helper is unavailable, the repository also provides a per-executable AppArmor permission for Chromium's namespace sandbox, following [Ubuntu's documented approach](https://documentation.ubuntu.com/release-notes/24.04/#unprivileged-user-namespace-restrictions).
 
 From this repository, run once on your own terminal:
 
@@ -27,4 +42,4 @@ sudo rm /etc/apparmor.d/<printed-profile-name>
 
 Both development and preview keep Chromium sandboxing enabled. `npm test` now sets Playwright's `chromiumSandbox: true` and checks that no sandbox-disabling arguments were passed. Earlier smoke runs checked renderer sandbox preferences, but Playwright's default disabled the Chromium sandbox and masked this host-configuration failure.
 
-After setup, verify with `npm run check` and launch the production desktop with `npm start`. The 14 dependency advisories previously reported belong to the SDK dependency tree and are separate from these launch errors; this fix does not use forced dependency upgrades.
+Verify with `npm run check` and launch the production desktop with `npm start`. A successful launch in a coding tool's AppArmor context does not prove that a separate terminal has the same namespace permissions; verify the actual user-terminal launch too. The 14 dependency advisories previously reported belong to the SDK dependency tree and are separate from these launch errors; this fix does not use forced dependency upgrades.

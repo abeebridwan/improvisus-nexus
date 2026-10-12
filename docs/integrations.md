@@ -40,7 +40,7 @@ entire status --detailed
 entire doctor
 ```
 
-Project settings and Codex hooks are tracked. Git hooks are local and need reinstalling after a fresh clone. Automatic checkpoint pushing is disabled; private checkpoint refs have not been pushed. The code branch is now published on GitHub. On another machine, install Entire and run the enable command above.
+Project settings and Codex hooks are tracked. Git hooks are local and need reinstalling after a fresh clone. Automatic checkpoint pushing is disabled; the one reviewed existing checkpoint has been explicitly published to GitHub at the builder's instruction. The code branch is now published on GitHub. On another machine, install Entire and run the enable command above.
 
 Re-ran `entire enable --agent codex` and verified `entire status --detailed`; automatic checkpoint publishing remains disabled. The latest `entire doctor` reports hook approval records present, but the captured session is ended. Start a fresh project coding session to verify automatic capture. The saved session was recovered manually through the installed CLI, without amending history; this does not prove hooks ran for later changes. Check `entire session current`, `entire checkpoint list`, and `entire doctor` to verify the actual capture mode.
 
@@ -48,7 +48,7 @@ Keep `strategy_options.push_sessions=false` for local checkpoint storage, and do
 
 No existing commit was amended, and no transcript or checkpoint was fabricated.
 
-Entire CLI login now works through its EU server, with credentials in the OS keyring. Hosted import still fails the GitHub App repository-access check, despite the builder reporting the selected repository. The builder requested keeping the checkpoint private; no checkpoint was uploaded. For the latest capture result, code publication, remaining connection steps, and sync status, see [Entire checkpoint verification](entire-checkpoints.md). Manual transcript capture does not establish hosted sync.
+Entire CLI login now works through its EU server, with credentials in the OS keyring. Hosted import still fails the GitHub App repository-access check, despite the builder reporting the selected repository. The builder subsequently authorized public publication of the reviewed checkpoint, which GitHub now confirms. The existing Entire-native repository remains private and is separate from the failed GitHub import. For the latest capture result, code publication, remaining connection steps, and sync status, see [Entire checkpoint verification](entire-checkpoints.md). Manual transcript capture does not establish hosted sync.
 
 ## cfo.ai and submission
 

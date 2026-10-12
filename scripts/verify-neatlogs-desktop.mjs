@@ -4,10 +4,10 @@ import { once } from 'node:events'
 import { writeFile, mkdir } from 'node:fs/promises'
 import electron from 'electron'
 import { chromium } from 'playwright'
+import { desktopEnvironment } from './electron-env.mjs'
 
 // Real application startup, not SDK Doctor or an invented agent operation.
-const env = { ...process.env, NEXUS_TRACE_STDOUT: '1' }
-delete env.ELECTRON_RUN_AS_NODE
+const env = { ...desktopEnvironment(), NEXUS_TRACE_STDOUT: '1' }
 delete env.ELECTRON_RENDERER_URL
 const child = spawn(electron, ['--remote-debugging-address=127.0.0.1', '--remote-debugging-port=0', '.'], { env, stdio: ['ignore', 'pipe', 'pipe'] })
 const exited = once(child, 'exit')
