@@ -1,11 +1,11 @@
 # cfo.ai business plan
 
-Status: pending manual creation in [cfo.ai](https://cfo.ai/).
+Status: the builder reports the plans were generated in cfo.ai. The four supplied share URLs returned matching public document metadata on October 12, 2026 (WAT); financial content review awaits readable exports.
 
-Use the [business-plan setup checklist](business-plan/README.md) for the official neatHack signup link, manual billing/credit steps, and required Nexus model inputs.
+The original [Improvisus Nexus business plan](https://app.cfo.ai/s/-G5cxfokWZuJPsQW), forecast, assumptions/simulator and unit-economics links are indexed in [business-plan/README.md](business-plan/README.md), with [retrieval evidence](business-plan/cfo-ai-evidence.json) and [review status](business-plan/review.md).
 
-The Improvisus Nexus business plan will be created with cfo.ai and included in the neatHack 2026 submission. No financial projections have been created and no programmatic cfo.ai integration is claimed.
+The original cfo.ai plan is intended for the neatHack submission. No financial figures were invented, transcribed without access or altered locally. No cfo.ai application/runtime integration is claimed.
 
 The plan must cover pricing, model and browser execution costs, agent hosting costs where applicable, revenue assumptions, unit economics, and runway. Use measured execution costs and clearly identified assumptions when that evidence exists.
 
-Add the exported plan or shareable link here once created, together with its date and the evidence of meaningful cfo.ai use to include in the demo.
+Share links are now recorded. Add the readable original exports and sanitized demo evidence before claiming the numerical review or mandatory-tool demonstration is complete. Billing cancellation and event-credit receipt remain unverified.

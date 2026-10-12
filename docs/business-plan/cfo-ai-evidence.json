@@ -1,0 +1,46 @@
+{
+  "checkedAt": "2026-10-12T01:37:40.114515+01:00",
+  "verificationScope": "HTTP response and public share metadata only; financial content not retrieved",
+  "documents": [
+    {
+      "url": "https://app.cfo.ai/s/-G5cxfokWZuJPsQW",
+      "httpStatus": 200,
+      "title": "Improvisus Nexus — Business plan",
+      "resourceKind": "page",
+      "blockCount": 11,
+      "sourceUpdatedAt": "2026-10-11T23:59:56.752599Z",
+      "visibleContent": "Opening shared link…",
+      "financialContentVerified": false
+    },
+    {
+      "url": "https://app.cfo.ai/s/JN59kUsONUBOrQTV",
+      "httpStatus": 200,
+      "title": "Nexus — Financial forecast",
+      "resourceKind": "page",
+      "blockCount": 5,
+      "sourceUpdatedAt": "2026-10-12T00:05:41.82264Z",
+      "visibleContent": "Opening shared link…",
+      "financialContentVerified": false
+    },
+    {
+      "url": "https://app.cfo.ai/s/jlhLdv8fJr0BEYFF",
+      "httpStatus": 200,
+      "title": "Nexus — Assumptions and simulator",
+      "resourceKind": "page",
+      "blockCount": 13,
+      "sourceUpdatedAt": "2026-10-12T00:18:11.515653Z",
+      "visibleContent": "Opening shared link…",
+      "financialContentVerified": false
+    },
+    {
+      "url": "https://app.cfo.ai/s/uzjG7iuZ7IQ_a3xF",
+      "httpStatus": 200,
+      "title": "Nexus — Customers and unit economics",
+      "resourceKind": "page",
+      "blockCount": 5,
+      "sourceUpdatedAt": "2026-10-12T00:12:16.625272Z",
+      "visibleContent": "Opening shared link…",
+      "financialContentVerified": false
+    }
+  ]
+}

@@ -25,7 +25,7 @@ This record follows the [official neatHack build-companion skill](https://neatlo
 | WebMCP | Generator/discovery boundaries and demo acceptance criteria documented. No capability generated, installed, or invoked. |
 | neatlogs — mandatory | TypeScript SDK `1.1.28` initialized once in the main process with credential masking and bounded shutdown. Local/authenticated diagnostics passed. Real desktop startup finalized with exact two-span authenticated CLI readback on October 12. Agent/LLM/WebMCP operations remain unimplemented. |
 | Entire — mandatory | CLI `0.11.4` and Git/Codex hooks configured; seven hooks still await approval. A real Codex transcript was manually captured as local checkpoint `01M4PJQYJYSVZHDH8GEB4A239Y` without amending HEAD. Automatic capture and hosted sync are not verified; publishing stays disabled. |
-| cfo.ai — mandatory | Official event signup and model-input checklist documented. No plan export, credit confirmation, or account completion evidence recorded. |
+| cfo.ai — mandatory | Builder reports plans generated in cfo.ai; four original share URLs and matching public metadata verified on October 12. [Business plan](https://app.cfo.ai/s/-G5cxfokWZuJPsQW) and [source evidence](docs/business-plan/cfo-ai-evidence.json) recorded. Financial contents, calculations, exports and billing/credits remain unverified. |
 
 The intended model endpoint is OpenAI-compatible; no model client or call is implemented. The latest neatlogs check verified that a project key was present and authenticated successfully, without recording its value.
 
@@ -92,6 +92,15 @@ The intended model endpoint is OpenAI-compatible; no model client or call is imp
 - No product failure/retry, model usage/cost, Agent37 reasoning, WebMCP task, or agent verification occurred. Prior diagnostic failures remain recorded above; they are not product recovery evidence. No key, private account data, private prompts, public trace sharing, Git push or submission was added.
 - Next: implement the first real executor/client when authorized, attach one supported capture owner per operation, and verify its actual run separately. Read-only CLI login may need renewed human approval when it expires.
 
+### October 12, 2026 (WAT) — cfo.ai plan sources and access verification
+
+- Committed the verified neatlogs changes as `08f273a`, preserving existing history; no push occurred.
+- The builder supplied four cfo.ai share URLs and reported generating the plans there. Retrieved every supplied URL: HTTP 200, matching document titles, block counts and original update timestamps. The [original business plan](https://app.cfo.ai/s/-G5cxfokWZuJPsQW), [financial forecast](https://app.cfo.ai/s/JN59kUsONUBOrQTV), [assumptions/simulator](https://app.cfo.ai/s/jlhLdv8fJr0BEYFF), and [customer/unit-economics model](https://app.cfo.ai/s/uzjG7iuZ7IQ_a3xF) are indexed in [business-plan documentation](docs/business-plan/README.md).
+- Web retrieval could not open the links. Direct HTTP retrieval recovered their public metadata, but page content remained “Opening shared link…”. The browser tool reports no available browser surfaces. This verifies source-link metadata, not financial contents or whether login is required. Readable original exports are needed to review the actual figures.
+- Added a [sanitized evidence record](docs/business-plan/cfo-ai-evidence.json) and [review checklist](docs/business-plan/review.md) covering pricing/limits, costs, 12-month scenarios, unit economics, break-even, runway and clearly labeled provisional review questions. No hypothetical forecast or substituted pricing was created.
+- Checks: original URL/title/timestamp metadata comparison, evidence JSON parsing, local documentation links and `git diff --check`. No runtime test was needed for these documentation-only changes. No product code, financial model, sharing permission, billing setting or account credential was changed.
+- Next: obtain readable exports of all four plans, preserve the original results, review their calculations, and add sanitized cfo.ai demo evidence. Financial recommendations require separate approval before implementation.
+
 ## Demo
 
 **Public demo/video URL:** Pending. **Fixture URL:** Pending. The [procurement-shortlist demo](docs/demo-acceptance.md) is a draft acceptance plan, not a working demonstration.
@@ -110,7 +119,7 @@ The foundation can be reproduced with `npm ci`, `npm run typecheck`, and `npm te
 1. Product capabilities, Search integration, permissions for product actions, recovery, and task verification remain unimplemented. The desktop's denied permissions are foundation security settings, not an agent permission system.
 2. neatlogs' diagnostic pipeline and real desktop startup are independently verified. Hosted Agent37/model/WebMCP internals still require implemented paths, real credentials and instrumentation/event access. Never copy private values into this log.
 3. Entire now has a real manually captured session checkpoint; automatic capture still needs project hook approval. Hosted synchronization and shareable access are unverified; Git commit hashes are not checkpoint IDs.
-4. cfo.ai signup, billing/credit confirmation, pricing/cost/revenue/runway model, and exported submission evidence remain manual work.
+4. The builder reports cfo.ai plans generated, and their share-link metadata is verified. Financial content/calculation review, readable exports, demo evidence and billing/credit confirmation remain outstanding.
 5. Dependency advisories, source/checkpoint publication, demo evidence, and build-in-public posts remain outstanding. The public GitHub repository exists at `https://github.com/abeebridwan/improvisus-nexus`; `origin` is connected, but no code or checkpoint was pushed.
 
 ## Submission
@@ -122,7 +131,7 @@ Published opening: October 12, **2:30 PM WAT** (7:00 PM IST). Planned close: **7
 - [ ] Registration, team name, check-in, and eligibility confirmed; Luma currently reports registration closed.
 - [ ] Public repository URL and hackathon commit history available.
 - [ ] Sanitized before/after traces, recovery/verification evidence, and real Entire checkpoints collected.
-- [ ] Completed cfo.ai business plan included.
+- [ ] cfo.ai business-plan contents and review evidence included; original share links are recorded, readable exports still needed.
 - [ ] Demo video and reproduction instructions complete.
 - [ ] Public development updates with `#neatHack` linked after publication is authorized.
 - [ ] Latest rules, official X post, and final cutoff checked with the builder/organizers.
