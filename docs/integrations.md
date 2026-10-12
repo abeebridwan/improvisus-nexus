@@ -40,15 +40,15 @@ entire status --detailed
 entire doctor
 ```
 
-Project settings and Codex hooks are tracked. Git hooks are local and need reinstalling after a fresh clone. Automatic checkpoint pushing is disabled; nothing has been pushed. On another machine, install Entire and run the enable command above.
+Project settings and Codex hooks are tracked. Git hooks are local and need reinstalling after a fresh clone. Automatic checkpoint pushing is disabled; private checkpoint refs have not been pushed. The code branch is now published on GitHub. On another machine, install Entire and run the enable command above.
 
-Re-ran `entire enable --agent codex` and verified `entire status --detailed`; automatic checkpoint publishing remains disabled. Codex still requires approval for its seven hooks through `/hooks`, as reported by `entire doctor`. Open Codex in this project, approve those commands, and start or resume a project coding session to verify automatic capture. The latest session was recovered manually through the installed CLI, without amending history; this does not prove hooks ran. Check `entire session current`, `entire checkpoint list`, and `entire doctor` to verify the actual capture mode.
+Re-ran `entire enable --agent codex` and verified `entire status --detailed`; automatic checkpoint publishing remains disabled. The latest `entire doctor` reports hook approval records present, but the captured session is ended. Start a fresh project coding session to verify automatic capture. The saved session was recovered manually through the installed CLI, without amending history; this does not prove hooks ran for later changes. Check `entire session current`, `entire checkpoint list`, and `entire doctor` to verify the actual capture mode.
 
 Keep `strategy_options.push_sessions=false` for local checkpoint storage, and do not explicitly push `refs/entire/checkpoints/*` or run a checkpoint sync/push unless the transcripts have been reviewed and publication is authorized. Local Entire checkpoints contain actual session transcripts, with best-effort secret redaction; they remain sensitive even when code is public.
 
 No existing commit was amended, and no transcript or checkpoint was fabricated.
 
-For the latest local capture result, commit-link verification, safe existing-session recovery, and the remaining GitHub/Entire connection steps, see [Entire checkpoint verification](entire-checkpoints.md). Manual transcript capture does not approve Codex hooks or establish hosted sync.
+Entire CLI login now works through its EU server, with credentials in the OS keyring. Hosted import still fails the GitHub App repository-access check, despite the builder reporting the selected repository. The builder requested keeping the checkpoint private; no checkpoint was uploaded. For the latest capture result, code publication, remaining connection steps, and sync status, see [Entire checkpoint verification](entire-checkpoints.md). Manual transcript capture does not establish hosted sync.
 
 ## cfo.ai and submission
 

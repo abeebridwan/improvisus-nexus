@@ -13,7 +13,7 @@ entire checkpoint list
 entire checkpoint explain HEAD --short --no-pager
 ```
 
-Seven project Codex hooks are installed, but still require review through `/hooks` in a Codex session opened at this repository. Do not bypass hook trust or fabricate lifecycle events. The default detailed checkpoint explanation includes prompts; use `--short` when displaying a result without private context.
+Seven project Codex hooks are installed. On October 12, `entire doctor` reports approval records present, while the tracked session remains ended. Start a fresh Codex session and verify actual capture; approval records alone do not prove hooks ran for new work. Do not bypass hook trust or fabricate lifecycle events. The default detailed checkpoint explanation includes prompts; use `--short` when displaying a result without private context.
 
 ## Existing-session recovery without rewriting history
 
@@ -25,9 +25,13 @@ Verification found one linked checkpoint and the actual verification request in 
 
 ## GitHub and sharing
 
-The builder-authorized public repository is [abeebridwan/improvisus-nexus](https://github.com/abeebridwan/improvisus-nexus), connected as `origin`. It was created without pushing code or checkpoint refs. Entire CLI login is absent; hosted import, GitHub App access, and checkpoint sync remain unverified.
+The builder-authorized public repository is [abeebridwan/improvisus-nexus](https://github.com/abeebridwan/improvisus-nexus), connected as `origin`. On October 12, the complete existing code history and reviewed desktop evidence were pushed to `main`, and the remote branch was verified. No checkpoint ref was pushed.
 
-Sign in to Entire with GitHub and grant the Entire GitHub App access to this repository through its onboarding. Check the repository appears in Entire. Review the checkpoint's full transcript privately before authorizing any sync; it includes actual prompts and tool context even when automatic secret redaction runs.
+Builder-approved `entire login --device` succeeded against the EU login server, storing credentials in the OS Secret Service keyring. Hosted repository access is a separate step: `entire repo view /gh/abeebridwan/improvisus-nexus` currently reports no visible repository. Two scoped import attempts through `entire repo mirror add /gh/abeebridwan/improvisus-nexus --cluster aws-eu-central-1.entire.io --no-wait --timeout 30s` were rejected by the GitHub App access check. No hosted mirror/deployment is claimed.
+
+Confirm the [Entire GitHub App](https://github.com/apps/entire) is configured on the correct owner with only `improvisus-nexus` selected, and save the setting. The builder reported that selection, but the service still rejected access. The [official guide](https://hack.entire.io/neathacks-2026/) says permission changes may take up to an hour to synchronize. After that, retry the scoped import and verify `entire repo view`; do not treat login or a generated URL as proof that the repository is connected. Entire is a development service, not an application runtime that needs deploying into Nexus.
+
+The builder explicitly chose to keep checkpoint `01M4PJQYJYSVZHDH8GEB4A239Y` private. A local scan found no configured credential values in it, but it contains original prompts and tool context. Automatic checkpoint pushing remains disabled, and `entire status --detailed` still reports one checkpoint not on origin. No hosted checkpoint synchronization or shareable checkpoint URL is claimed.
 
 Keep `strategy_options.push_sessions=false`. Do not use a blanket `git push --mirror` or enable automatic checkpoint publishing to make a link appear. Publishing code and publishing checkpoint data require separate review and authorization. After reviewed synchronization, check `entire status` and open **repository → branch → commit → checkpoint** in Entire.
 

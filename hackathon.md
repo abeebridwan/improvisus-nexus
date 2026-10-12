@@ -24,7 +24,7 @@ This record follows the [official neatHack build-companion skill](https://neatlo
 | Playwright / Chromium | Installed; desktop smoke and standalone Chromium launch checks passed. No website workflow runner implemented. |
 | WebMCP | Generator/discovery boundaries and demo acceptance criteria documented. No capability generated, installed, or invoked. |
 | neatlogs — mandatory | TypeScript SDK `1.1.28` initialized once in the main process with credential masking and bounded shutdown. Local/authenticated diagnostics passed. Real desktop startup finalized with exact two-span authenticated CLI readback on October 12. Agent/LLM/WebMCP operations remain unimplemented. |
-| Entire — mandatory | CLI `0.11.4` and Git/Codex hooks configured; seven hooks still await approval. A real Codex transcript was manually captured as local checkpoint `01M4PJQYJYSVZHDH8GEB4A239Y` without amending HEAD. Automatic capture and hosted sync are not verified; publishing stays disabled. |
+| Entire — mandatory | CLI `0.11.4` and Git/Codex hooks configured; approval records now present. Real manually captured checkpoint `01M4PJQYJYSVZHDH8GEB4A239Y` remains private by builder instruction. EU CLI login succeeds; hosted repository import fails the GitHub App access check. Fresh automatic capture and hosted checkpoint sync remain unverified. |
 | cfo.ai — mandatory | Builder reports plans generated in cfo.ai; four original share URLs and matching public metadata verified on October 12. [Business plan](https://app.cfo.ai/s/-G5cxfokWZuJPsQW) and [source evidence](docs/business-plan/cfo-ai-evidence.json) recorded. Financial contents, calculations, exports and billing/credits remain unverified. |
 
 The intended model endpoint is OpenAI-compatible; no model client or call is implemented. The latest neatlogs check verified that a project key was present and authenticated successfully, without recording its value.
@@ -110,6 +110,15 @@ The intended model endpoint is OpenAI-compatible; no model client or call is imp
 - Preserved existing staged `.gitignore` and artifacts, including the original screenshot. No dependencies, credentials, product features or external publications changed. Entire session attachment returned old checkpoint `01M4PJQYJYSVZHDH8GEB4A239Y`; it did not capture this debugging iteration or amend HEAD. Fresh automatic checkpoint capture remains unverified; pushing stays disabled.
 - Next: use the working desktop commands for the first browser capability milestone, and verify fresh Entire capture in a new development session.
 
+### October 12, 2026 (WAT) — GitHub publication and Entire hosted-connection attempt
+
+- Confirmed neatlogs currently traces real desktop startup and renderer loading; Agent37/model/WebMCP operations are still unimplemented and their span options dormant. Published only the reviewed screenshot and sanitized trace metadata, not private trace payloads.
+- At the builder's instruction, committed those artifacts as `42f6d7f` and pushed `main` with existing history to [abeebridwan/improvisus-nexus](https://github.com/abeebridwan/improvisus-nexus). GitHub and the remote branch confirm publication. No history rewrite or force push occurred. Artifact ignore rules now allow only the two reviewed evidence files.
+- Checked staged files and main-branch history locally: 130 blob checks found no configured credential values or private-key blocks; `.env` stays untracked. Reviewed the screenshot and validated trace metadata against the earlier verified run. No runtime code changed, so existing passing launch/typecheck/smoke evidence applies.
+- Builder-approved Entire device login succeeded, with credentials stored in the OS keyring. The repository's scoped EU import was rejected twice by the service's GitHub App access check, including after the builder confirmed repository selection. Login is working; a hosted repository mirror is not verified. The official guide allows up to an hour for access changes to synchronize.
+- Privately scanned the existing checkpoint; no configured credential values were found, but it retains actual prompts and tool context. The builder chose to keep it private. Remote inspection confirms no checkpoint ref was uploaded; automatic pushing stays disabled, and status reports one checkpoint not on origin. No new checkpoint or hosted share URL is claimed.
+- Documentation/diff checks and exact remote-commit verification were performed. Next: confirm saved GitHub App access after propagation, retry the same scoped Entire import, and verify fresh capture in a new Codex session before claiming new development checkpoints.
+
 ## Demo
 
 **Public demo/video URL:** Pending. **Fixture URL:** Pending. The [procurement-shortlist demo](docs/demo-acceptance.md) is a draft acceptance plan, not a working demonstration.
@@ -127,9 +136,9 @@ The foundation can be reproduced with `npm ci`, `npm run typecheck`, and `npm te
 
 1. Product capabilities, Search integration, permissions for product actions, recovery, and task verification remain unimplemented. The desktop's denied permissions are foundation security settings, not an agent permission system.
 2. neatlogs' diagnostic pipeline and real desktop startup are independently verified. Hosted Agent37/model/WebMCP internals still require implemented paths, real credentials and instrumentation/event access. Never copy private values into this log.
-3. Entire now has a real manually captured session checkpoint; automatic capture still needs project hook approval. Hosted synchronization and shareable access are unverified; Git commit hashes are not checkpoint IDs.
+3. Entire's local hooks have approval records and CLI login works, but the saved session is ended and fresh automatic capture is unverified. Hosted repository import is rejected by the GitHub App access check. The builder chose to keep the existing checkpoint private; no hosted checkpoint synchronization or public share URL is claimed.
 4. The builder reports cfo.ai plans generated, and their share-link metadata is verified. Financial content/calculation review, readable exports, demo evidence and billing/credit confirmation remain outstanding.
-5. Dependency advisories, source/checkpoint publication, demo evidence, and build-in-public posts remain outstanding. The public GitHub repository exists at `https://github.com/abeebridwan/improvisus-nexus`; `origin` is connected, but no code or checkpoint was pushed.
+5. Code/history and reviewed desktop evidence are published at `https://github.com/abeebridwan/improvisus-nexus`; private checkpoint refs remain local. Dependency advisories, real agent demo evidence, and build-in-public posts remain outstanding.
 
 ## Submission
 
@@ -138,7 +147,7 @@ Published requirements checked October 11, 2026 against the [official event page
 Published opening: October 12, **2:30 PM WAT** (7:00 PM IST). Planned close: **7:25 PM WAT** (11:55 PM IST). **Final cutoff remains subject to Discord confirmation.** The official submission-post URL is not recorded; do not invent one.
 
 - [ ] Registration, team name, check-in, and eligibility confirmed; Luma currently reports registration closed.
-- [ ] Public repository URL and hackathon commit history available.
+- [x] Public repository URL and hackathon commit history available on GitHub.
 - [ ] Sanitized before/after traces, recovery/verification evidence, and real Entire checkpoints collected.
 - [ ] cfo.ai business-plan contents and review evidence included; original share links are recorded, readable exports still needed.
 - [ ] Demo video and reproduction instructions complete.
