@@ -36,6 +36,16 @@ jobs:
         run: npm run package -- --${{ matrix.arch }}
         env:
           CSC_IDENTITY_AUTO_DISCOVERY: 'false'
+          AGENT37_API_KEY: ${{ secrets.AGENT37_API_KEY }}
+          AGENT37_INSTANCE_ID: ${{ secrets.AGENT37_INSTANCE_ID }}
+          INSTA_ADAPTER_HOST_URL: ${{ secrets.INSTA_ADAPTER_HOST_URL }}
+          INSTA_PUBLISH_TOKEN: ${{ secrets.INSTA_PUBLISH_TOKEN }}
+      - name: Verify packaged Linux app
+        if: matrix.platform == 'linux'
+        run: |
+          sudo chown root:root release/linux-unpacked/chrome-sandbox
+          sudo chmod 4755 release/linux-unpacked/chrome-sandbox
+          xvfb-run -a node scripts/smoke-packaged.mjs
       - name: Upload installers
         uses: actions/upload-artifact@v7
         with:

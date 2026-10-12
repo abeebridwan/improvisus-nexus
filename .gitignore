@@ -3,6 +3,7 @@ out/
 dist/
 release/
 .release-resources/
+resources/judge-integrations.json
 .env
 .env.*
 !.env.example

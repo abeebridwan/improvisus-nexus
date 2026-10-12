@@ -1,6 +1,6 @@
 import { app, BrowserWindow, net, protocol, safeStorage } from 'electron'
-import { dirname, resolve, sep } from 'node:path'
-import { fileURLToPath, pathToFileURL } from 'node:url'
+import { resolve, sep } from 'node:path'
+import { pathToFileURL } from 'node:url'
 import { existsSync } from 'node:fs'
 import { loadEnvFile } from 'node:process'
 import { trace } from 'neatlogs'
@@ -12,7 +12,9 @@ import { configureAiRuntime } from './core/ai-client'
 import { registerCoreIPC } from './core/ipc'
 import { registerAgentIPC } from './agent/ipc'
 
-const here = dirname(fileURLToPath(import.meta.url))
+// Packaging can split this module into a chunk; paths are rooted in the app,
+// rather than the chunk directory.
+const here = resolve(app.getAppPath(), 'out/main')
 const rendererRoot = resolve(here, '../renderer')
 const appUrl = 'nexus://app/'
 const devUrl = process.env.ELECTRON_RENDERER_URL
@@ -20,9 +22,9 @@ const csp = "default-src 'self'; script-src 'self'; style-src 'self'; img-src 's
 let tracingEnabled = false
 let providers: ProviderService
 
-// Release configuration belongs to the local user profile, never the archive.
-const envPath = app.isPackaged ? resolve(app.getPath('userData'), 'nexus.env') : resolve(app.getAppPath(), '.env')
-if (existsSync(envPath)) loadEnvFile(envPath)
+// Packaged configuration is loaded by bootstrap before runtime imports.
+const envPath = resolve(app.getAppPath(), '.env')
+if (!app.isPackaged && existsSync(envPath)) loadEnvFile(envPath)
 
 protocol.registerSchemesAsPrivileged([
   { scheme: 'nexus', privileges: { standard: true, secure: true, supportFetchAPI: true } }

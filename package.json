@@ -1,6 +1,6 @@
 {
   "name": "improvisus-nexus",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Improvisus Nexus desktop AI agent foundation",
   "private": true,
   "type": "module",

@@ -15,6 +15,8 @@ asarUnpack:
   - node_modules/playwright/**/*
   - node_modules/playwright-core/**/*
 extraResources:
+  - from: .release-resources/judge-integrations.json
+    to: judge-integrations.json
   - from: .release-resources/browsers
     to: browsers
     filter:
