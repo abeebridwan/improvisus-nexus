@@ -5,6 +5,7 @@ import { readPreferences, savePreferences, type AIProvider, type NexusFeature } 
 import { ProviderSettings } from './ProviderSettings'
 import type { ProviderState } from '../../shared/providers'
 import { CoreWorkspace } from './CoreWorkspace'
+import { AgentWorkspace } from './AgentWorkspace'
 
 import './style.css'
 
@@ -32,7 +33,6 @@ function App() {
   const [message, setMessage] = useState('')
   const [storageUnavailable, setStorageUnavailable] = useState(false)
   const [coreLocked, setCoreLocked] = useState(false)
-  const [task, setTask] = useState('')
   const heading = useRef<HTMLHeadingElement>(null)
 
   useEffect(() => { heading.current?.focus() }, [screen])
@@ -251,29 +251,7 @@ function App() {
                 onLockChange={setCoreLocked}
               />
             ) : (
-              <>
-                <div className="key-field">
-                  <label htmlFor="task">
-                    What would you like Nexus to do?
-                  </label>
-                  <textarea
-                    id="task"
-                    value={task}
-                    onChange={event => setTask(event.target.value)}
-                    placeholder="Describe a task to complete across WebMCP-enabled websites…"
-                  />
-                </div>
-
-                <div className="actions">
-                  <button disabled>Discover capabilities</button>
-                  <button className="primary" disabled>Run task</button>
-                </div>
-
-                <p className="planned">
-                  Improvisus Search discovery and Agent37 execution are not connected yet.
-                  Your task stays on this screen and is not sent anywhere.
-                </p>
-              </>
+              <AgentWorkspace configured={Boolean(active)} onLockChange={setCoreLocked} />
             )}
           </article>
         </>

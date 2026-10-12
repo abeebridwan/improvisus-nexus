@@ -1,4 +1,5 @@
 import type { CoreBridge, CoreResult } from '../shared/core'
+import type { AgentBridge, AgentResult } from '../shared/agent'
 import { contextBridge, ipcRenderer } from 'electron'
 import type { DesktopInfo } from '../shared/desktop'
 import type { ProviderBridge, ProviderResult } from '../shared/providers'
@@ -17,9 +18,32 @@ async function invokeCore<T>(name: string, request?: unknown): Promise<CoreResul
   }
 }
 
+async function invokeAgent<T>(name: string, request?: unknown): Promise<AgentResult<T>> {
+  try { return await ipcRenderer.invoke(`nexus:agent:${name}`, ...(request === undefined ? [] : [request])) } catch {
+    return { ok: false, message: 'Could not reach Nexus Agent. Restart Nexus.' }
+  }
+}
+
 const desktop: DesktopInfo = Object.freeze({
   platform: process.platform,
   electron: process.versions.electron,
+  agent: Object.freeze<AgentBridge>({
+    connect: request => invokeAgent('connect', request),
+    refresh: () => invokeAgent('refresh'),
+    search: request => invokeAgent('search', request),
+    open: request => invokeAgent('open', request),
+    run: request => invokeAgent('run', request),
+    approve: request => invokeAgent('approve', request),
+    cancel: () => invokeAgent('cancel'),
+    clear: () => invokeAgent('clear'),
+    onEvent: callback => {
+      const listener = (_event: unknown, event: unknown) => {
+        if (event && typeof event === 'object' && 'message' in event && typeof event.message === 'string') callback(event as Parameters<typeof callback>[0])
+      }
+      ipcRenderer.on('nexus:agent:event', listener)
+      return () => ipcRenderer.removeListener('nexus:agent:event', listener)
+    }
+  }),
   core: Object.freeze<CoreBridge>({
     pickFolder: () => invokeCore('pick-folder'),
     discover: source => invokeCore('discover', source),

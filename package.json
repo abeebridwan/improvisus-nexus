@@ -14,7 +14,7 @@
     "setup:linux": "node scripts/setup-linux-sandbox.mjs",
     "build": "electron-vite build",
     "typecheck": "tsc --noEmit -p tsconfig.node.json && tsc --noEmit -p tsconfig.web.json",
-    "test": "node --experimental-strip-types --test scripts/observability.test.mjs scripts/providers.test.mjs scripts/model-json.test.mjs && npm run build && node scripts/smoke-desktop.mjs",
+    "test": "node --experimental-strip-types --test scripts/observability.test.mjs scripts/providers.test.mjs scripts/model-json.test.mjs scripts/agent-guard.test.mjs && npm run build && node scripts/smoke-desktop.mjs",
     "test:core": "npm run build && node scripts/core-ui.mjs",
     "check": "npm run typecheck && npm test",
     "browser:install": "playwright install chromium",
@@ -26,6 +26,7 @@
     "core:probe": "tsx scripts/core-probe.ts"
   },
   "dependencies": {
+    "ajv": "^8.20.0",
     "diff": "^9.0.0",
     "jsonrepair": "^3.15.0",
     "neatlogs": "^1.1.28",

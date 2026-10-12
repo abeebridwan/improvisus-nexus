@@ -10,6 +10,7 @@ import { ProviderService } from './providers/service'
 import { registerProviderIPC } from './providers/ipc'
 import { configureAiRuntime } from './core/ai-client'
 import { registerCoreIPC } from './core/ipc'
+import { registerAgentIPC } from './agent/ipc'
 
 const here = dirname(fileURLToPath(import.meta.url))
 const rendererRoot = resolve(here, '../renderer')
@@ -85,6 +86,7 @@ async function createWindow(): Promise<{ rendererLoaded: true }> {
   window.webContents.setWindowOpenHandler(() => ({ action: 'deny' }))
   registerProviderIPC(window, providers, !app.isPackaged && !!devUrl, tracingEnabled)
   registerCoreIPC(window, !app.isPackaged && !!devUrl)
+  registerAgentIPC(window, !app.isPackaged && !!devUrl, tracingEnabled)
   window.webContents.on('will-navigate', (event) => event.preventDefault())
   window.webContents.on('will-redirect', (event) => event.preventDefault())
   window.webContents.on('will-attach-webview', (event) => event.preventDefault())
