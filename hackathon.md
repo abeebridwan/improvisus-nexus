@@ -130,6 +130,14 @@ The intended model endpoint is OpenAI-compatible; no model client or call is imp
 - The first hook-mediated checkpoint push reached the existing private Entire-native repository; a second, exact-ref push bypassed hooks for that command to reach GitHub. Hooks/settings remain unchanged, with future automatic publishing disabled. Entire's local queue still counts one unpushed checkpoint; this does not override verified remote evidence. The GitHub App import was retried and still rejected access, so its hosted commit viewer is not claimed working.
 - No new checkpoint was fabricated or attached to this fix, and no history was rewritten. Product features remain unimplemented. Next: confirm the visible user desktop and resolve Entire GitHub App access separately before claiming its GitHub-backed share viewer.
 
+
+### October 12, 2026 (WAT) — terminal-context sandbox correction
+
+- The builder confirmed the desktop window launched by the tool was visible. Fix commit `089d90f` was pushed, but a stricter reproduction using `aa-exec -p unconfined` still hit the original SUID error. This disproved that the helper environment variable alone fixed normal terminal launches.
+- Checked Chromium's official source: an adjacent helper takes precedence over `CHROME_DEVEL_SANDBOX`. Verified that replacing only the user-owned extracted helper with a reversible symlink to the existing root-owned Chrome helper lets both real dev and production launchers render and exit cleanly in the previously failing terminal context, with sandboxing enabled. Shared startup preparation now performs this only after validating the trusted helper and preserving the original; no system permissions are changed.
+- The builder's request to consider disabling sandboxing did not require a permanent security downgrade. The trusted-helper link is a verified alternative; no sandbox-disabling command or product feature was added.
+- Passed the full `npm run check` under `aa-exec -p unconfined`, including TypeScript, masking, production build and sandbox-enabled Electron smoke; syntax/diff checks also passed. Preserved the previously published evidence. New Entire Brain guide files appeared during this session and were reviewed for instructions, but are left untouched for a separate change. No fresh checkpoint capture is claimed.
+
 ## Demo
 
 **Public demo/video URL:** Pending. **Fixture URL:** Pending. The [procurement-shortlist demo](docs/demo-acceptance.md) is a draft acceptance plan, not a working demonstration.

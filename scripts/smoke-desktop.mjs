@@ -1,10 +1,12 @@
 import assert from 'node:assert/strict'
 import { mkdir } from 'node:fs/promises'
 import { _electron } from 'playwright'
-import { desktopEnvironment } from './electron-env.mjs'
+import electron from 'electron'
+import { desktopEnvironment, prepareLinuxSandbox } from './electron-env.mjs'
 
 // Electron uses its own Chromium. No separate browser download is needed here.
 const env = desktopEnvironment()
+prepareLinuxSandbox(electron, env)
 delete env.ELECTRON_RENDERER_URL
 const desktop = await _electron.launch({ args: ['.'], env, chromiumSandbox: true, timeout: 30_000 })
 try {
