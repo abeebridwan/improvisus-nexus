@@ -1,6 +1,6 @@
 # Integration setup
 
-Only the desktop shell and tracing lifecycle are wired. No agent workflow or publisher is implemented. Secrets stay in the Node.js main process. For local development, copy `.env.example` to `.env` and add only your own credentials. No credentials are required to launch the foundation.
+The desktop, onboarding, secure provider settings and tracing lifecycle are wired. No agent workflow or publisher is implemented. Secrets stay in the Node.js main process; OpenAI/OpenRouter keys are entered through Settings and saved with OS-backed encryption. See [provider configuration and verification limits](providers.md). Local `.env` remains for other main-process integration credentials. No credentials are required to launch the shell.
 
 ## Agent37
 

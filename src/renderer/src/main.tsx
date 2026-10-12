@@ -1,6 +1,8 @@
 import { StrictMode, useEffect, useRef, useState } from 'react'
 import { createRoot } from 'react-dom/client'
 import { readPreferences, savePreferences, type AIProvider, type NexusFeature } from './preferences'
+import { ProviderSettings } from './ProviderSettings'
+import type { ProviderState } from '../../shared/providers'
 import './style.css'
 
 const features = {
@@ -21,52 +23,73 @@ function App() {
   const [initial] = useState(readPreferences)
   const [feature, setFeature] = useState<NexusFeature | null>(initial?.feature ?? null)
   const [provider, setProvider] = useState<AIProvider | null>(initial?.provider ?? null)
-  const [screen, setScreen] = useState<'feature' | 'provider' | 'workspace'>(initial ? 'workspace' : 'feature')
-  const [apiKey, setApiKey] = useState('')
-  const [keyTouched, setKeyTouched] = useState(false)
+  const [screen, setScreen] = useState<'feature' | 'provider' | 'workspace' | 'settings' | 'loading'>(initial ? 'loading' : 'feature')
+  const [providerState, setProviderState] = useState<ProviderState | null>(null)
+  const [message, setMessage] = useState('')
   const [storageUnavailable, setStorageUnavailable] = useState(false)
+  const [source, setSource] = useState<'local' | 'url'>('local')
+  const [project, setProject] = useState('')
+  const [website, setWebsite] = useState('')
+  const [task, setTask] = useState('')
   const heading = useRef<HTMLHeadingElement>(null)
-  const keyInvalid = keyTouched && apiKey.length > 0 && !apiKey.trim()
 
   useEffect(() => { heading.current?.focus() }, [screen])
+  useEffect(() => {
+    let mounted = true
+    void window.nexus.providers.status().then(result => {
+      if (!mounted) return
+      if (result.ok) {
+        setProviderState(result.value)
+        if (initial) setScreen(result.value.active ? 'workspace' : 'provider')
+      } else { setMessage(result.message); if (initial) setScreen('provider') }
+    }).catch(() => { if (mounted) setMessage('Could not load provider settings. Restart Nexus.') })
+    return () => { mounted = false }
+  }, [initial])
 
-  function clearKey() {
-    setApiKey('')
-    setKeyTouched(false)
-  }
-
-  function openWorkspace() {
-    if (!feature || !provider) return
-    setStorageUnavailable(!savePreferences({ feature, provider }))
-    clearKey()
+  function openWorkspace(value: ProviderState) {
+    setProviderState(value)
+    setMessage('')
+    if (!feature || !value.active) return
+    setProvider(value.active.provider)
+    setStorageUnavailable(!savePreferences({ feature, provider: value.active.provider }))
     setScreen('workspace')
   }
-
   function switchWorkspace(next: NexusFeature) {
     setFeature(next)
-    if (provider) setStorageUnavailable(!savePreferences({ feature: next, provider }))
+    setScreen('workspace')
+    const selected = providerState?.active?.provider ?? provider
+    if (selected) setStorageUnavailable(!savePreferences({ feature: next, provider: selected }))
   }
+  const active = providerState?.active
+
+  if (screen === 'loading') return <main><p role="status" className="description">Loading secure provider settings…</p></main>
 
   return (
     <main>
       <header>
         <span className="wordmark">IMPROVISUS <span>NEXUS</span></span>
-        <span className="badge">neatHack 2026</span>
+        {(screen === 'workspace' || screen === 'settings') ? (
+          <nav className="workspace-switch" aria-label="Nexus navigation">
+            <button aria-pressed={screen === 'workspace' && feature === 'core'} onClick={() => switchWorkspace('core')}>Nexus Core</button>
+            <button aria-pressed={screen === 'workspace' && feature === 'agent'} onClick={() => switchWorkspace('agent')}>Nexus Agent</button>
+            <button aria-pressed={screen === 'settings'} onClick={() => setScreen('settings')}>Settings</button>
+          </nav>
+        ) : <span className="badge">neatHack 2026</span>}
       </header>
-      {screen !== 'workspace' && (
+      {(screen === 'feature' || screen === 'provider') && (
         <ol className="steps" aria-label="Onboarding progress">
           <li aria-current={screen === 'feature' ? 'step' : undefined}>01 · Choose functionality</li>
           <li aria-current={screen === 'provider' ? 'step' : undefined}>02 · Connect AI provider</li>
         </ol>
       )}
       <section className="intro" aria-labelledby="title">
-        <p className="eyebrow">{screen === 'workspace' ? 'YOUR WORKSPACE' : 'WELCOME TO IMPROVISUS NEXUS'}</p>
+        <p className="eyebrow">{screen === 'workspace' ? 'YOUR WORKSPACE' : screen === 'settings' ? 'PROVIDER CONFIGURATION' : 'WELCOME TO IMPROVISUS NEXUS'}</p>
         <h1 id="title" ref={heading} tabIndex={-1}>
-          {screen === 'feature' ? 'What will you do with Nexus?' : screen === 'provider' ? 'Bring your own AI.' : features[feature!].name}
+          {screen === 'feature' ? 'What will you do with Nexus?' : screen === 'provider' ? 'Bring your own AI.' : screen === 'settings' ? 'Settings' : features[feature!].name}
         </h1>
         <p className="description">
           {screen === 'feature' ? 'Choose where to start. You can switch workspaces later.' :
-            screen === 'provider' ? `Choose an AI provider for ${features[feature!].name}. Nexus uses your own API key; your provider bills you for usage.` : features[feature!].purpose}
+            screen === 'provider' ? `Choose an AI provider for ${features[feature!].name}. Nexus uses your own API key; your provider bills you for usage.` : screen === 'settings' ? 'One provider and model, shared by Nexus Core and Nexus Agent.' : features[feature!].purpose}
         </p>
       </section>
 
@@ -93,57 +116,46 @@ function App() {
         </>
       )}
 
-      {screen === 'provider' && (
-        <>
-          <fieldset className="directions providers">
-            <legend>AI provider</legend>
-            {(['openai', 'openrouter'] as const).map((option) => (
-              <label className={`choice ${provider === option ? 'selected' : ''}`} key={option}>
-                <input type="radio" name="provider" value={option} checked={provider === option} onChange={() => { setProvider(option); clearKey() }} />
-                <strong>{providers[option]}</strong>
-              </label>
-            ))}
-          </fieldset>
-          <div className="key-field">
-            <label htmlFor="api-key">API key <span className="muted">· optional for preview</span></label>
-            <input id="api-key" type="password" value={apiKey} disabled={!provider} autoComplete="off" spellCheck={false}
-              aria-describedby="key-status connection-note" aria-invalid={keyInvalid}
-              onChange={(event) => { setApiKey(event.target.value); setKeyTouched(true) }} onBlur={() => setKeyTouched(true)} />
-            <p id="key-status" className={keyInvalid ? 'error' : 'muted'} role="status">
-              {keyInvalid ? 'Enter a key with more than whitespace, or leave it empty for preview.' :
-                apiKey.trim() ? 'Key entered · not verified.' : 'No key entered · provider not connected.'}
-            </p>
-          </div>
-          <aside className="notice" id="connection-note">
-            <strong>Provider connection is coming next.</strong>
-            <p>Secure key storage and live validation are not available yet. Your key is not sent or saved and is discarded when you leave this step. Only your provider and workspace preferences are saved.</p>
-          </aside>
-          <div className="actions">
-            <button onClick={() => { clearKey(); setScreen('feature') }}>Back</button>
-            <button className="primary" disabled={!provider} onClick={openWorkspace}>Save preferences &amp; explore workspace</button>
-          </div>
-        </>
+      {(screen === 'provider' || screen === 'settings') && (
+        <ProviderSettings key={screen} state={providerState} preferred={provider}
+          onSaved={openWorkspace} onChanged={setProviderState}
+          onBack={() => setScreen(screen === 'settings' ? 'workspace' : 'feature')} />
       )}
 
       {screen === 'workspace' && (
         <>
-          <nav className="workspace-switch" aria-label="Workspace">
-            {(['core', 'agent'] as const).map((option) => (
-              <button key={option} aria-pressed={feature === option} onClick={() => switchWorkspace(option)}>{features[option].name}</button>
-            ))}
-          </nav>
-          <article className="workspace-preview">
-            <span className="number">WORKSPACE PREVIEW</span>
-            <h2>{feature === 'core' ? 'Make your website agent-ready.' : 'Give your agent a goal.'}</h2>
-            <p>{features[feature!].detail}</p>
-            <span className="planned">{feature === 'core' ? 'Workflow discovery, generation and browser verification are not implemented yet.' : 'Capability discovery, task execution and approvals are not implemented yet.'}</span>
-          </article>
           <div className="provider-summary">
-            <span>{providers[provider!]} · Not connected</span>
-            <button onClick={() => setScreen('provider')}>Change provider</button>
+            <span>{active ? `${providers[active.provider]} · ${active.model} · Configured` : 'No provider configured'}</span>
+            <button onClick={() => setScreen('settings')}>Provider settings</button>
           </div>
+          <article className="workspace-preview">
+            <span className="number">{feature === 'core' ? 'WEBSITE CAPABILITIES' : 'PERSONAL AGENT'}</span>
+            <h2>{feature === 'core' ? 'Make your website agent-ready.' : 'Give your agent a goal.'}</h2>
+            {feature === 'core' ? (
+              <>
+                <fieldset className="source-options">
+                  <legend>Website source</legend>
+                  <label><input type="radio" name="source" checked={source === 'local'} onChange={() => setSource('local')} /> Local project</label>
+                  <label><input type="radio" name="source" checked={source === 'url'} onChange={() => setSource('url')} /> Website URL</label>
+                </fieldset>
+                <div className="key-field">
+                  {source === 'local' ? <><label htmlFor="project">Local project path</label><input id="project" value={project} onChange={event => setProject(event.target.value)} placeholder="/path/to/your/project" /></> :
+                    <><label htmlFor="website">Website URL</label><input id="website" type="url" value={website} onChange={event => setWebsite(event.target.value)} placeholder="https://example.com" /></>}
+                </div>
+                <button disabled>Discover workflows</button>
+                <p className="planned">Workflow discovery, generation and browser verification are not connected yet. These inputs do not modify a project or website.</p>
+              </>
+            ) : (
+              <>
+                <div className="key-field"><label htmlFor="task">What would you like Nexus to do?</label><textarea id="task" value={task} onChange={event => setTask(event.target.value)} placeholder="Describe a task to complete across WebMCP-enabled websites…" /></div>
+                <div className="actions"><button disabled>Discover capabilities</button><button className="primary" disabled>Run task</button></div>
+                <p className="planned">Improvisus Search discovery and Agent37 execution are not connected yet. Your task stays on this screen and is not sent anywhere.</p>
+              </>
+            )}
+          </article>
         </>
       )}
+      {message && <p className="error" role="status">{message}</p>}
       {storageUnavailable && <p className="error" role="status">Preferences could not be saved on this device. You can still explore this session.</p>}
       <footer>
         <span><span className="dot" />Desktop shell ready</span>

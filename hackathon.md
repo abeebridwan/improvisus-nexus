@@ -10,7 +10,7 @@
 
 **Team:** No public names, handles, or team name supplied. Do not infer them from local accounts or Git authors.
 
-**Current stage:** Secure desktop foundation, two-step onboarding UI and workspace previews. Provider connection, product agent, WebMCP generator and end-to-end task execution remain unimplemented.
+**Current stage:** Secure desktop foundation, onboarding, provider Settings and Core/Agent entry screens. Main-process provider metadata validation and encrypted storage are implemented. The builder confirmed OS-backed save/restart/navigation tests with fixture credentials; real-key authentication remains unverified. Agent execution, WebMCP generation and end-to-end tasks remain unimplemented.
 
 This record follows the [official neatHack build-companion skill](https://neatlogs.com/hackathon/skill), read on October 11, 2026. Append factual entries after meaningful implementation sessions; preserve earlier entries and label corrections. Dates use WAT. No secrets, private traces, personal data, or environment-file contents belong here.
 
@@ -27,7 +27,7 @@ This record follows the [official neatHack build-companion skill](https://neatlo
 | Entire — mandatory | CLI `0.11.4` and Git/Codex hooks configured; approval records now present. Real manually captured checkpoint `01M4PJQYJYSVZHDH8GEB4A239Y` is now public on GitHub by subsequent explicit builder instruction. EU CLI login succeeds; hosted repository import fails the GitHub App access check. Fresh automatic capture and the hosted GitHub viewer remain unverified. |
 | cfo.ai — mandatory | Builder reports plans generated in cfo.ai; four original share URLs and matching public metadata verified on October 12. [Business plan](https://app.cfo.ai/s/-G5cxfokWZuJPsQW) and [source evidence](docs/business-plan/cfo-ai-evidence.json) recorded. Financial contents, calculations, exports and billing/credits remain unverified. |
 
-The intended model endpoint is OpenAI-compatible; no model client or call is implemented. The latest neatlogs check verified that a project key was present and authenticated successfully, without recording its value.
+Provider metadata requests now use fixed OpenAI/OpenRouter endpoints; no inference client or model generation is implemented. The latest neatlogs check verified that a project key was present and authenticated successfully, without recording its value.
 
 ## Build log
 
@@ -148,6 +148,21 @@ The intended model endpoint is OpenAI-compatible; no model client or call is imp
 - Updated [onboarding boundary documentation](docs/onboarding.md) and the tracing launch verifier's renderer-ready selector. Main/preload security and tracing remain unchanged; no agent, provider request, WebMCP generation or tool execution was implemented.
 - Entire doctor reports Git/Codex hooks installed and approved; current session status remains ended, so no fresh captured checkpoint is claimed. Existing hook settings were preserved. Additional neatlogs Codex hooks appeared concurrently and are left intact outside this onboarding commit.
 - Next: implement and independently verify main-process secure credential storage and live provider validation before showing a connected provider or enabling AI tasks.
+
+
+### October 12, 2026 (WAT) — secure provider configuration and workspace entry screens
+
+- Inspected the existing Electron security policy, preload, Agent37 runtime placeholder, renderer state and telemetry mask. Verified current Electron/OpenAI/OpenRouter APIs and Agent37's models/chat/BYOK documentation. No provider SDK, routing dependency or hosted infrastructure was added.
+- Implemented main-process OpenAI/OpenRouter metadata checks, returned-catalog model selection, key replacement/deletion and a shared trusted-process runtime configuration. OpenAI tool support is explicitly unknown because its model list lacks that metadata; OpenRouter uses reported supported parameters. No inference is performed during validation.
+- Added OS-backed encrypted credential persistence using Electron safeStorage, atomic ciphertext-only writes and owner-only file permissions. Linux plaintext/unknown backends are refused. Preload exposes only five validated provider operations, scoped to the application's main frame/origin; credentials are never returned. Expiring/cancellable validation keeps unsaved keys out of persistent storage.
+- Added Settings and persistent Core/Agent navigation. Core has local-project/URL entry options; Agent has a task input and discovery entry point. Both share provider/model status. Workflow generation, capability discovery and task execution remain disabled and clearly disconnected; local credentials do not silently configure a hosted Agent37 instance.
+- Extended existing neatlogs masking to keys registered after initialization and restored encrypted credentials before tracing startup. Provider spans use static operation names/completion/error codes, without request/response/key data. No provider credential was exposed to coding tools, Search or crash reporting. Existing startup evidence and concurrent Codex/Entire hooks were preserved.
+- Passed TypeScript, production build, changed-script syntax/diff checks and focused fixture tests for successful configuration, unavailable models, invalid/missing keys, permissions/rate/provider/network failures, invalid replacement retention, replacement/deletion and secure-fallback refusal. A test initially failed because Node's strip-only loader rejects TypeScript parameter properties; explicit class fields fixed it without another dependency.
+- Real Electron probing initially found basic_text with encryption unavailable; a follow-up probe was blocked when automatic approval review hit its usage limit (not a safety rejection). The builder's terminal reproduced the skip, including after explicit GNOME selection. Inspection then found Playwright's Electron loader forcibly selecting basic storage/mock keychain. A test-only Node preload now removes those overrides before ready; production secure-storage code is unchanged.
+- The corrected harness reached secure saving, then failed on an ambiguous Website URL label shared by a radio and text field. A textbox-specific selector fixed this test error. The builder subsequently confirmed the corrected desktop check passed: real OS-encrypted file permissions/non-plaintext data, fixture-provider configuration/error handling, shared Core/Agent Settings navigation, restored configuration after an actual Electron restart, replacement/deletion and restricted IPC/sandbox controls. These desktop results were run in the builder's terminal; they are not authenticated live OpenAI/OpenRouter evidence. No real provider key is configured locally.
+- Reviewed the provider screen locally. Original published startup evidence remains unchanged. Provider request limits/timeouts are bounded; unsaved validation is cancellable/expiring; no Chromium sandbox setting or OS permission was weakened.
+- Entire status still resolves the old ended session and reports four hook approvals needed. Hooks/history remain intact; no fresh checkpoint or hosted sync is claimed for this implementation. [Provider setup and verification](docs/providers.md) documents supported APIs, Agent37 binding limits and remaining manual checks.
+- Next: check real keys directly through Settings, then separately connect actual workflow and Agent37 backends.
 
 ## Demo
 

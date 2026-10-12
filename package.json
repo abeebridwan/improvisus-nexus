@@ -14,7 +14,7 @@
     "setup:linux": "node scripts/setup-linux-sandbox.mjs",
     "build": "electron-vite build",
     "typecheck": "tsc --noEmit -p tsconfig.node.json && tsc --noEmit -p tsconfig.web.json",
-    "test": "node --experimental-strip-types --test scripts/observability.test.mjs && npm run build && node scripts/smoke-desktop.mjs",
+    "test": "node --experimental-strip-types --test scripts/observability.test.mjs scripts/providers.test.mjs && npm run build && node scripts/smoke-desktop.mjs",
     "check": "npm run typecheck && npm test",
     "browser:install": "playwright install chromium",
     "neatlogs:doctor": "neatlogs doctor --local --json",

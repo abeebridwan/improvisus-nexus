@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict'
 import test from 'node:test'
-import { createTelemetryMask } from '../src/main/observability/redact.ts'
+import { createTelemetryMask, protectCredential } from '../src/main/observability/redact.ts'
 
 test('export masking removes credentials from nested I/O, events and logs without losing metrics', async () => {
   const sentinel = 'local-test-secret-not-a-credential'
@@ -25,4 +25,13 @@ test('export masking removes credentials from nested I/O, events and logs withou
   assert.equal(result.attributes['llm.completion_tokens'], 2)
   assert.equal(result.attributes.cost, 0.01)
   assert.equal(input.events[0].password, 'test')
+})
+
+test('keys registered after SDK initialization are masked in buffered telemetry', async () => {
+  const mask = createTelemetryMask([])
+  const fixture = 'runtime-key-fixture-not-a-real-credential'
+  protectCredential(fixture)
+  const result = await mask({ body: `private ${fixture}`, attributes: { 'input.value': JSON.stringify({ apiKey: fixture }), tokens: 3 } })
+  assert.equal(JSON.stringify(result).includes(fixture), false)
+  assert.equal(result.attributes.tokens, 3)
 })

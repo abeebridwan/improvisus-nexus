@@ -2,7 +2,7 @@
 
 An Electron desktop personal AI agent for neatHack 2026. The intended product makes websites agent-ready with verified WebMCP capabilities and uses those capabilities to complete tasks with permission, failure recovery, and result verification.
 
-This repository contains the secure desktop foundation and two-step onboarding: choose Nexus Core or Nexus Agent, then choose OpenAI or OpenRouter. Workspace switching and provider/feature preferences work. Secure key storage and live provider validation remain unimplemented; keys are never saved, and the UI labels provider connection as unavailable. [Onboarding details](docs/onboarding.md). No agent execution or WebMCP generation exists yet.
+This repository contains the secure desktop foundation, two-step onboarding and shared provider Settings. OpenAI/OpenRouter keys use OS-backed encryption in the main process; explicit metadata checks load available model choices. Storage fails closed without a usable keyring. Core has local-project/URL entry options, and Agent has task/discovery entry points; backend workflow actions remain disabled. [Onboarding](docs/onboarding.md) and [provider setup](docs/providers.md). No agent execution or WebMCP generation exists yet.
 
 ## Development
 
@@ -17,7 +17,7 @@ npm run build
 npm start
 ```
 
-`npm start` builds and opens the production desktop. `npm test` launches real Electron through Playwright with Chromium sandboxing enabled and an isolated temporary profile. It verifies onboarding, navigation, preference persistence, key non-persistence, responsive layout and security controls, and writes ignored `artifacts/onboarding-*.png` screenshots. On Linux without a display, use `xvfb-run -a npm test`.
+`npm start` builds and opens the production desktop. `npm test` runs focused provider/redaction tests, then launches real Electron with Chromium sandboxing and an isolated profile. Its fixture-provider checks use real IPC and OS encryption; encrypted restart/navigation checks explicitly skip if a keyring is unavailable. No real key or paid inference is used. On Linux without a display, use `xvfb-run -a npm test`.
 
 On Linux, launch as your normal user, without `sudo`. When available, launch scripts reuse the verified root-owned sandbox helper installed by Google Chrome. On Ubuntu without that helper, `npm run setup:linux` installs an AppArmor profile scoped to this checkout's Electron executable. See [Linux setup and rollback](docs/linux-development.md). Both approaches preserve Chromium sandboxing.
 
@@ -29,7 +29,7 @@ Launch scripts clear an inherited `ELECTRON_RUN_AS_NODE` flag and resolve Electr
 
 ```text
 src/main/       Electron and Node.js backend
-src/preload/    Read-only desktop metadata bridge
+src/preload/    Desktop metadata and restricted provider IPC
 src/renderer/   React UI
 src/shared/     Bridge types
 scripts/        Desktop launch verification
@@ -42,7 +42,7 @@ The [demo acceptance checklist](docs/demo-acceptance.md) defines a planned produ
 
 [hackathon.md](hackathon.md) records actual progress, failures, fixes, verification, and demo/submission readiness. Repository instructions require a concise factual entry after each meaningful implementation session, following the official neatHack build companion.
 
-The renderer is sandboxed, has no Node.js access, and uses context isolation. The production shell loads local assets through the restricted `nexus://app/` protocol with a Content Security Policy. New windows, page navigation, and browser permissions are denied. The preload exposes only platform and Electron version metadata. Privileged workflow APIs will need specific, validated IPC contracts when implemented.
+The renderer is sandboxed, has no Node.js access, and uses context isolation. The production shell loads local assets through the restricted `nexus://app/` protocol with a Content Security Policy. New windows, page navigation, and browser permissions are denied. Preload exposes desktop metadata and five allowlisted provider operations; credentials can be submitted, but never read back. Workflow APIs remain unimplemented.
 
 Build tooling follows [electron-vite conventions](https://electron-vite.org/guide/dev). Security follows the [Electron checklist](https://www.electronjs.org/docs/latest/tutorial/security), and launch checks use [Playwright's Electron API](https://playwright.dev/docs/api/class-electron).
 
@@ -54,6 +54,6 @@ Build tooling follows [electron-vite conventions](https://electron-vite.org/guid
 - **InstaCloud:** official `insta` CLI installed and version checked. No cloud resources or custom publisher created.
 - **cfo.ai:** builder-generated plan share links and matching public metadata recorded in [business-plan documentation](docs/business-plan/README.md). Actual financial content and numerical review await readable exports; no runtime integration.
 
-See [setup details and remaining manual steps](docs/integrations.md) and [verified results](docs/verification.md). Copy `.env.example` to `.env` if configuring tracing; all credentials are optional for the shell and no fake values are provided. The model provider and Search settings are reserved for future implementation.
+See [setup details and remaining manual steps](docs/integrations.md) and [verified results](docs/verification.md). Copy `.env.example` to `.env` if configuring tracing; no fake values are provided. Configure AI provider keys through Settings, not frontend environment variables. Search and Agent37 runtime binding remain unimplemented.
 
 The current neatlogs dependency tree has unresolved npm advisories; compatible fixes were checked. The [public GitHub repository](https://github.com/abeebridwan/improvisus-nexus) now contains the code and existing commit history on `main`. The reviewed [desktop screenshot](artifacts/desktop-smoke.png) and [sanitized startup trace evidence](artifacts/neatlogs-desktop.json) are published; other generated artifacts stay ignored. The one reviewed Entire checkpoint ref is also published; automatic publication of future checkpoints remains disabled.

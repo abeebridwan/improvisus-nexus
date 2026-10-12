@@ -1,10 +1,13 @@
-import { app, BrowserWindow, net, protocol } from 'electron'
+import { app, BrowserWindow, net, protocol, safeStorage } from 'electron'
 import { dirname, resolve, sep } from 'node:path'
 import { fileURLToPath, pathToFileURL } from 'node:url'
 import { existsSync } from 'node:fs'
 import { loadEnvFile } from 'node:process'
 import { trace } from 'neatlogs'
 import { initializeTracing, stopTracing } from './observability'
+import { EncryptedCredentialStore } from './providers/store'
+import { ProviderService } from './providers/service'
+import { registerProviderIPC } from './providers/ipc'
 
 const here = dirname(fileURLToPath(import.meta.url))
 const rendererRoot = resolve(here, '../renderer')
@@ -12,6 +15,7 @@ const appUrl = 'nexus://app/'
 const devUrl = process.env.ELECTRON_RENDERER_URL
 const csp = "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'none'; object-src 'none'; base-uri 'none'; frame-src 'none'; form-action 'none'"
 let tracingEnabled = false
+let providers: ProviderService
 
 const envPath = resolve(app.getAppPath(), '.env')
 if (!app.isPackaged && existsSync(envPath)) loadEnvFile(envPath)
@@ -77,6 +81,7 @@ async function createWindow(): Promise<{ rendererLoaded: true }> {
     )
   }
   window.webContents.setWindowOpenHandler(() => ({ action: 'deny' }))
+  registerProviderIPC(window, providers, !app.isPackaged && !!devUrl, tracingEnabled)
   window.webContents.on('will-navigate', (event) => event.preventDefault())
   window.webContents.on('will-redirect', (event) => event.preventDefault())
   window.webContents.on('will-attach-webview', (event) => event.preventDefault())
@@ -100,6 +105,9 @@ async function createWindow(): Promise<{ rendererLoaded: true }> {
 app.setName('Improvisus Nexus')
 app.whenReady().then(async () => {
   serveRenderer()
+  providers = new ProviderService(new EncryptedCredentialStore(app.getPath('userData'), safeStorage))
+  // Register saved keys with the telemetry mask before enabling any export.
+  await providers.status().catch(() => {})
   tracingEnabled = await initializeTracing()
   if (tracingEnabled) {
     let traceId = ''

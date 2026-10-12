@@ -1,5 +1,11 @@
 import type { MaskFunction } from 'neatlogs'
 
+// Keep rotated/deleted values masked until process exit, including buffered spans.
+const protectedCredentials = new Set<string>()
+export function protectCredential(value: string): void {
+  if (value) protectedCredentials.add(value)
+}
+
 // Applied to the SDK's canonical export envelope, including serialized I/O.
 // This is credential protection; arbitrary personal data still needs an allowlist.
 export function createTelemetryMask(secretValues: string[]): MaskFunction {
@@ -11,7 +17,7 @@ export function createTelemetryMask(secretValues: string[]): MaskFunction {
         const parsed: unknown = JSON.parse(value)
         if (parsed !== null && typeof parsed === 'object') return JSON.stringify(redact(parsed))
       } catch { /* Ordinary strings need literal credential removal only. */ }
-      return secrets.reduce((text, secret) => text.split(secret).join('[REDACTED]'), value)
+      return [...secrets, ...protectedCredentials].reduce((text, secret) => text.split(secret).join('[REDACTED]'), value)
     }
     if (Array.isArray(value)) return value.map(redact)
     if (value !== null && typeof value === 'object') {
