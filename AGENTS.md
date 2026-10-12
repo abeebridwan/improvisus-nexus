@@ -12,3 +12,8 @@ These instructions supplement existing user, environment, and repository instruc
 - Link only sanitized, shareable evidence. Never copy credentials, environment-file contents, personal data, private prompts/traces, tokens, or customer information into the build log. Keep Entire checkpoint publishing disabled unless the user explicitly authorizes reviewed content for publication.
 - Verify current rules and submission requirements at [neatlogs](https://neatlogs.com/hackathon) and [Luma](https://luma.com/s5blr882) before preparing a demo/submission. Mark unavailable or unannounced details pending. Ask only about decisions that cannot be inferred; do not publish team names/handles without the builder choosing them.
 - Do not register, publish, deploy, send public posts, or submit without explicit user instruction. The build-companion skill does not establish eligibility or qualify this project.
+
+<!-- entire-agent:begin -->
+Read .entire/agent-guide.md for this repository's workflow, source inspection, and verification guidance.
+@.entire/agent-guide.md
+<!-- entire-agent:end -->
