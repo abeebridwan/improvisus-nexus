@@ -42,7 +42,7 @@ try {
   browser = await chromium.connectOverCDP(await ready)
   const context = browser.contexts()[0]
   const page = context.pages()[0] ?? await context.waitForEvent('page', { timeout: 30_000 })
-  await page.getByRole('heading', { name: 'A place for agents to get work done.' }).waitFor()
+  await page.locator('h1#title').waitFor()
   assert.equal(page.url(), 'nexus://app/')
   assert.equal(await page.title(), 'Improvisus Nexus')
   traceId = await traced

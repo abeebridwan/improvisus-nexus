@@ -10,7 +10,7 @@
 
 **Team:** No public names, handles, or team name supplied. Do not infer them from local accounts or Git authors.
 
-**Current stage:** Desktop foundation and integration preparation. No product agent, WebMCP generator, or end-to-end task execution is implemented.
+**Current stage:** Secure desktop foundation, two-step onboarding UI and workspace previews. Provider connection, product agent, WebMCP generator and end-to-end task execution remain unimplemented.
 
 This record follows the [official neatHack build-companion skill](https://neatlogs.com/hackathon/skill), read on October 11, 2026. Append factual entries after meaningful implementation sessions; preserve earlier entries and label corrections. Dates use WAT. No secrets, private traces, personal data, or environment-file contents belong here.
 
@@ -137,6 +137,17 @@ The intended model endpoint is OpenAI-compatible; no model client or call is imp
 - Checked Chromium's official source: an adjacent helper takes precedence over `CHROME_DEVEL_SANDBOX`. Verified that replacing only the user-owned extracted helper with a reversible symlink to the existing root-owned Chrome helper lets both real dev and production launchers render and exit cleanly in the previously failing terminal context, with sandboxing enabled. Shared startup preparation now performs this only after validating the trusted helper and preserving the original; no system permissions are changed.
 - The builder's request to consider disabling sandboxing did not require a permanent security downgrade. The trusted-helper link is a verified alternative; no sandbox-disabling command or product feature was added.
 - Passed the full `npm run check` under `aa-exec -p unconfined`, including TypeScript, masking, production build and sandbox-enabled Electron smoke; syntax/diff checks also passed. Preserved the previously published evidence. New Entire Brain guide files appeared during this session and were reviewed for instructions, but are left untouched for a separate change. No fresh checkpoint capture is claimed.
+
+
+### October 12, 2026 (WAT) — two-step onboarding and workspace navigation
+
+- Inspected the existing single React component, styling, read-only preload, security policy and test scripts. Reused React state and the dark olive design; no routing library or dependency was added. Reviewed current React controlled-input/state guidance through Context7.
+- Added required Core/Agent selection, OpenAI/OpenRouter choices, a masked optional key field, honest unverified/invalid-input states, back navigation and selected workspace previews. Both workspaces can be switched later, and provider settings can be reopened.
+- Persisted only allowlisted feature/provider IDs. Keys stay in transient memory and are cleared when leaving provider setup or changing provider; no key is saved, logged, bridged or sent. Provider connection remains explicitly unavailable because secure storage and live validation do not exist. Preview navigation is not presented as successful authentication.
+- Passed TypeScript and production build, then `npm test` under the ordinary terminal's AppArmor context with Chromium sandboxing enabled. The isolated-profile Electron checks cover required selection, back navigation, key clearing/masking/non-persistence, both workspace routes, switching/reload, malformed preferences, failed storage and desktop widths of 720/1080 pixels, plus existing security controls. Reviewed screenshots of all three screens locally; original public trace/screenshot evidence remains unchanged.
+- Updated [onboarding boundary documentation](docs/onboarding.md) and the tracing launch verifier's renderer-ready selector. Main/preload security and tracing remain unchanged; no agent, provider request, WebMCP generation or tool execution was implemented.
+- Entire doctor reports Git/Codex hooks installed and approved; current session status remains ended, so no fresh captured checkpoint is claimed. Existing hook settings were preserved. Additional neatlogs Codex hooks appeared concurrently and are left intact outside this onboarding commit.
+- Next: implement and independently verify main-process secure credential storage and live provider validation before showing a connected provider or enabling AI tasks.
 
 ## Demo
 

@@ -2,7 +2,7 @@
 
 An Electron desktop personal AI agent for neatHack 2026. The intended product makes websites agent-ready with verified WebMCP capabilities and uses those capabilities to complete tasks with permission, failure recovery, and result verification.
 
-This repository currently contains the desktop foundation only. The two capability descriptions in the shell are plans; no agent execution or WebMCP generation exists yet.
+This repository contains the secure desktop foundation and two-step onboarding: choose Nexus Core or Nexus Agent, then choose OpenAI or OpenRouter. Workspace switching and provider/feature preferences work. Secure key storage and live provider validation remain unimplemented; keys are never saved, and the UI labels provider connection as unavailable. [Onboarding details](docs/onboarding.md). No agent execution or WebMCP generation exists yet.
 
 ## Development
 
@@ -17,7 +17,7 @@ npm run build
 npm start
 ```
 
-`npm start` builds and opens the production desktop. `npm test` builds and launches the real Electron app through Playwright with Chromium sandboxing enabled, verifies rendering and security settings, and writes `artifacts/desktop-smoke.png`. On Linux without a display, use `xvfb-run -a npm test`.
+`npm start` builds and opens the production desktop. `npm test` launches real Electron through Playwright with Chromium sandboxing enabled and an isolated temporary profile. It verifies onboarding, navigation, preference persistence, key non-persistence, responsive layout and security controls, and writes ignored `artifacts/onboarding-*.png` screenshots. On Linux without a display, use `xvfb-run -a npm test`.
 
 On Linux, launch as your normal user, without `sudo`. When available, launch scripts reuse the verified root-owned sandbox helper installed by Google Chrome. On Ubuntu without that helper, `npm run setup:linux` installs an AppArmor profile scoped to this checkout's Electron executable. See [Linux setup and rollback](docs/linux-development.md). Both approaches preserve Chromium sandboxing.
 
