@@ -14,7 +14,7 @@
     "setup:linux": "node scripts/setup-linux-sandbox.mjs",
     "build": "electron-vite build",
     "typecheck": "tsc --noEmit -p tsconfig.node.json && tsc --noEmit -p tsconfig.web.json",
-    "test": "node --experimental-strip-types --test scripts/observability.test.mjs scripts/providers.test.mjs && npm run build && node scripts/smoke-desktop.mjs",
+    "test": "node --experimental-strip-types --test scripts/observability.test.mjs scripts/providers.test.mjs scripts/model-json.test.mjs && npm run build && node scripts/smoke-desktop.mjs",
     "check": "npm run typecheck && npm test",
     "browser:install": "playwright install chromium",
     "neatlogs:doctor": "neatlogs doctor --local --json",
@@ -26,6 +26,7 @@
   },
   "dependencies": {
     "diff": "^9.0.0",
+    "jsonrepair": "^3.15.0",
     "neatlogs": "^1.1.28",
     "openai": "^7.28.0",
     "playwright": "1.64.0",

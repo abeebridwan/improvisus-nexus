@@ -179,6 +179,11 @@ Provider metadata requests now use fixed OpenAI/OpenRouter endpoints; no inferen
 - Existing staged Core implementation and the separate working-tree JSON repair change can be attributed to distinct commits. Preserving unrelated Codex observability-hook changes outside these commits. Current TypeScript checks pass. Entire reports Codex enabled with four hook approvals pending; no new checkpoint capture or publication is claimed.
 - Next: commit the existing implementation and JSON repair separately, then improve only the Core frontend and verify controlled fixture flows through its real IPC/backend.
 
+### October 12, 2026 (WAT) — existing model JSON fix preserved
+
+- Committed the builder's separate JSON-output fix: explicit JSON request mode, supported-format fallback, bounded application retries, complete-object checks, syntax repair and sanitized errors. No replacement provider or model API was introduced.
+- Two offline regression cases pass for fenced/repaired JSON, unchanged adapter string content, incomplete-output rejection, retry correction and unsupported JSON-mode fallback. An initial fixture assumption that an unquoted slash path would be faithfully repaired failed; jsonrepair can misinterpret that form, so arbitrary malformed JSON is not guaranteed recoverable. Existing workflow schema validation remains in place; no live model verification was performed here.
+
 ## Demo
 
 **Public demo/video URL:** Pending. **Fixture URL:** Pending. The [procurement-shortlist demo](docs/demo-acceptance.md) is a draft acceptance plan, not a working demonstration.
