@@ -194,6 +194,11 @@ Provider metadata requests now use fixed OpenAI/OpenRouter endpoints; no inferen
 - Test development exposed a timing-sensitive disabled-button assertion and missing node_modules exclusion in the temporary Vite fixture's Git ignore. Response gating and the fixture ignore fixed those harness issues; the production backend was not changed. Reviewed fixture screenshots of local/remote results and expanded review/diff locally. They remain ignored; original published desktop trace/screenshot evidence is unchanged.
 - Entire remains enabled for Codex, with four hook approvals pending. Hooks were preserved; no fresh checkpoint or remote sync is claimed. Existing neatlogs instrumentation was preserved without adding duplicate capture. Next: reproduce the builder's real-service demo against the updated UI and verify its trace coverage separately.
 
+### October 12, 2026 (WAT) — commit existing Codex observability hooks
+
+- At the builder's request, included the previously staged neatlogs-codex lifecycle/tool/permission/compaction hook configuration. JSON parsing and a comparison with HEAD confirmed all seven existing Entire hook groups are preserved; Git whitespace checks passed. Hook configuration contains commands and metadata, with no credential values.
+- No application/runtime change, live hook-capture verification, fresh checkpoint claim or push was performed. Hook approvals and authenticated capture remain separate from committing the configuration.
+
 ## Demo
 
 **Public demo/video URL:** Pending. **Fixture URL:** Pending. The [procurement-shortlist demo](docs/demo-acceptance.md) is a draft acceptance plan, not a working demonstration.

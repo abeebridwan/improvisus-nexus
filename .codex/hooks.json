@@ -10,6 +10,17 @@
             "timeout": 30
           }
         ]
+      },
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "neatlogs-codex hook",
+            "commandWindows": "neatlogs-codex.cmd hook",
+            "timeout": 30,
+            "async": true
+          }
+        ]
       }
     ],
     "SessionEnd": [
@@ -19,6 +30,16 @@
           {
             "type": "command",
             "command": "sh -c 'if ! command -v entire >/dev/null 2>&1; then exit 0; fi; exec entire hooks codex session-end'",
+            "timeout": 3
+          }
+        ]
+      },
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "neatlogs-codex hook",
+            "commandWindows": "neatlogs-codex.cmd hook",
             "timeout": 3
           }
         ]
@@ -34,6 +55,16 @@
             "timeout": 30
           }
         ]
+      },
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "neatlogs-codex hook",
+            "commandWindows": "neatlogs-codex.cmd hook",
+            "timeout": 5
+          }
+        ]
       }
     ],
     "Stop": [
@@ -44,6 +75,17 @@
             "type": "command",
             "command": "sh -c 'if ! command -v entire >/dev/null 2>&1; then exit 0; fi; exec entire hooks codex stop'",
             "timeout": 30
+          }
+        ]
+      },
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "neatlogs-codex hook",
+            "commandWindows": "neatlogs-codex.cmd hook",
+            "timeout": 30,
+            "async": true
           }
         ]
       }
@@ -58,6 +100,16 @@
             "timeout": 30
           }
         ]
+      },
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "neatlogs-codex hook",
+            "commandWindows": "neatlogs-codex.cmd hook",
+            "timeout": 5
+          }
+        ]
       }
     ],
     "SubagentStop": [
@@ -68,6 +120,17 @@
             "type": "command",
             "command": "sh -c 'if ! command -v entire >/dev/null 2>&1; then exit 0; fi; exec entire hooks codex subagent-stop'",
             "timeout": 30
+          }
+        ]
+      },
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "neatlogs-codex hook",
+            "commandWindows": "neatlogs-codex.cmd hook",
+            "timeout": 30,
+            "async": true
           }
         ]
       }
@@ -82,7 +145,81 @@
             "timeout": 30
           }
         ]
+      },
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "neatlogs-codex hook",
+            "commandWindows": "neatlogs-codex.cmd hook",
+            "timeout": 5
+          }
+        ]
+      }
+    ],
+    "PreToolUse": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "neatlogs-codex hook",
+            "commandWindows": "neatlogs-codex.cmd hook",
+            "timeout": 5
+          }
+        ]
+      }
+    ],
+    "PermissionRequest": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "neatlogs-codex hook",
+            "commandWindows": "neatlogs-codex.cmd hook",
+            "timeout": 30,
+            "async": true
+          }
+        ]
+      }
+    ],
+    "PreCompact": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "neatlogs-codex hook",
+            "commandWindows": "neatlogs-codex.cmd hook",
+            "timeout": 30,
+            "async": true
+          }
+        ]
+      }
+    ],
+    "PostCompact": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "neatlogs-codex hook",
+            "commandWindows": "neatlogs-codex.cmd hook",
+            "timeout": 30,
+            "async": true
+          }
+        ]
+      }
+    ],
+    "Interrupt": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "neatlogs-codex hook",
+            "commandWindows": "neatlogs-codex.cmd hook",
+            "timeout": 3
+          }
+        ]
       }
     ]
-  }
+  },
+  "description": "Codex lifecycle hooks, including Neatlogs observability."
 }
